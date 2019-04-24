@@ -1,0 +1,16 @@
+{
+  "name": "markdownald",
+  "version": "0.0.1",
+  "description": "A minimal Electron application",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^5.0.0-beta.9"
+  },
+  "dependencies": {
+    "bootstrap": "3",
+    "codemirror": "^5.46.0"
+  }
+}
