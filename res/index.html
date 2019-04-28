@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <title>MarkDownald</title>
     <link rel="stylesheet" href="container.css" />
+    <link rel="stylesheet" href="codemirror-5.46.0/lib/codemirror.css" />
+    <link rel="stylesheet" href="theme.css" />
+    <script src="codemirror-5.46.0/lib/codemirror.js"></script>
+    <script src="codemirror-5.46.0/mode/markdown/markdown.js"></script>
+    <script src="codemirror-5.46.0/addon/selection/active-line.js"></script>
+    <script src="codemirror-5.46.0/addon/comment/comment.js"></script>
+    <script src="codemirror-5.46.0/addon/comment/continuecomment.js"></script>
+    <script src="codemirror-5.46.0/addon/edit/matchbrackets.js"></script>
+
   </head>
   <body>
         <div id="sidebar">
+          <textarea id="input" autofocus="autofocus"></textarea>
         </div>
         <div id="main">
         </div>
         <div id="dragbar"></div>
-        <script src="../src/container.js" />
+        <script src="../src/container.js"></script>
   </body>
 </html>
