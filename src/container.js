@@ -10,7 +10,11 @@ var editor = CodeMirror.fromTextArea($input[0], {
     lineWrapping:true
 });
 
-var converter = new showdown.Converter();
+var converter = new showdown.Converter({
+    tables: true,
+    strikethrough: true,
+    tasklists: true
+});
 
 editor.on("change", function(editor, change) {
     text = editor.getValue();
