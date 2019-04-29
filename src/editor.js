@@ -1,5 +1,6 @@
 const $ = require('jquery');
 const $input = $('#input');
+const rendered = $('#main')[0];
 const showdown = require('showdown');
 
 var editor = CodeMirror.fromTextArea($input[0], {
@@ -23,8 +24,25 @@ editor.on("change", function(editor, change) {
     insertPosition.innerHTML = html;
 })
 
-function boldEditor() {
-    text = editor.getSelection();
-    str = '**' + text + '**';
-    editor.replaceSelection(str);
+var timer = null;
+editor.on("scroll", function(editor) {
+    rendered.removeAttribute("onScroll");
+    var scale = (editor.getScrollerElement().scrollHeight - editor.getScrollerElement().clientHeight) 
+    / (rendered.scrollHeight - rendered.clientHeight)
+    rendered.scrollTop = (editor.getScrollInfo().top / scale );
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+        rendered.setAttribute("onScroll", 'scrollRendered();');
+    }, 300)
+})
+
+rendered.setAttribute("onScroll", "scrollRendered();");
+
+function scrollRendered() {
+    var scale = (editor.getScrollerElement().scrollHeight - editor.getScrollerElement().clientHeight) 
+    / (rendered.scrollHeight - rendered.clientHeight);
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+        editor.getScrollerElement().scrollTop = (rendered.scrollTop * scale);
+    }, 50)
 }
