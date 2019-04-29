@@ -15,12 +15,14 @@ let menuTemplate = [{
         accelerator: 'Ctrl+Z',
         click: (item, focusedWindow) => {
             editor.undo();
+            editor.focus();
         }
     }, {
         label: 'Redo',
         accelerator: 'Shift+Ctrl+Z',
         click: (item, focusedWindow) => {
             editor.redo();
+            editor.focus();
         }
     }, { 
         type: 'separator' 
@@ -29,23 +31,27 @@ let menuTemplate = [{
         accelerator: 'Ctrl+X',
         click: (item, focusedWindow) => {
             cut();
+            editor.focus();
         }
     }, {
         label: 'Copy',
         accelerator: 'Ctrl+C',
         click: (item, focusedWindow) => {
             copy();
+            editor.focus();
         }
     }, {
         label: 'Paste',
         accelerator: 'Ctrl+V',
         click: (item, focusedWindow) => {
             editor.replaceSelection(clipboard.readText());
+            editor.focus();
         }
     }, {
         label: 'Delete',
         click: (item, focusedWindow) => {
             editor.replaceSelection('');
+            editor.focus();
         }
     },
     { type: 'separator' }, {
@@ -53,12 +59,14 @@ let menuTemplate = [{
         accelerator: 'Ctrl+B',
         click: (item, focusedWindow) => {
             boldEditor();
+            editor.focus();
         }
     }, {
         label: 'Italic',
         accelerator: 'Ctrl+I',
         click: (item, focusedWindow) => {
             italicEditor();
+            editor.focus();
         }
     }, { 
         type: 'separator' 
@@ -67,6 +75,7 @@ let menuTemplate = [{
         accelerator: 'Ctrl+A',
         click: (item, focusedWindow) => {
             editor.execCommand('selectAll');
+            editor.focus();
         }
     }]
 }, {
