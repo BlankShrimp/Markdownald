@@ -22,3 +22,9 @@ editor.on("change", function(editor, change) {
     insertPosition = document.getElementById("main")
     insertPosition.innerHTML = html;
 })
+
+function boldEditor() {
+    text = editor.getSelection();
+    str = '**' + text + '**';
+    editor.replaceSelection(str);
+}

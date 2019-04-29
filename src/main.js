@@ -1,11 +1,32 @@
 
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const pkg = require('../package.json')
 const path = require('path')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+
+let menuTemplate = [{
+  label: 'File',
+  submenu:[{
+    label: 'exit',
+    accelerator: 'Alt+F4',
+    role:'quit'
+  }]
+}, {
+  label: 'Edit',
+  submenu:[
+    {role:'undo'}, 
+    {role:'redo'}, 
+    {type:'separator'},
+    { role: 'cut' },
+    { role: 'copy' },
+    { role: 'paste' },
+    { role: 'delete' },
+    { type: 'separator' },
+    { role: 'selectAll' }]
+}]
 
 function createWindow () {
   // Create the browser window.
@@ -14,6 +35,9 @@ function createWindow () {
     height: 600,
     webPreferences:{nodeIntegration: true}, 
   })
+
+  const menu = Menu.buildFromTemplate(menuTemplate)
+  // Menu.setApplicationMenu(menu)
 
   // and load the index.html of the app.
   // win.loadFile('src/index.html')
