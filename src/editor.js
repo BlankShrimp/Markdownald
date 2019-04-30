@@ -11,14 +11,17 @@ var editor = CodeMirror.fromTextArea($input[0], {
     cursorHeight: 0.85,
     lineWrapping:true,
     extraKeys: {
-        //auto complete: table
         Enter: function() {
             var flag1 = true;
             var flag2 = true;
             var thisLine = editor.getLine(editor.getCursor().line);
-            if (thisLine.startsWith("|") && thisLine.endsWith("|")) {
+            if (thisLine.startsWith("|") && thisLine.endsWith("|")) { //auto complete: table
                 var count = thisLine.split("|").length;
-                if (editor.getCursor().line != editor.lastLine()) {
+                if (count <= 2) {
+                    flag1= false
+                    flag2= false
+                }
+                else if (editor.getCursor().line != editor.lastLine()) {
                     flag1 = false;
                     var nextLine = editor.getLine(editor.getCursor().line + 1).split("|");
                     for (var i= 0; i < nextLine.length; i++) {
@@ -34,10 +37,25 @@ var editor = CodeMirror.fromTextArea($input[0], {
                     for (let i = 2; i < count; i++) {
                         tableSeparator += "-----|";
                     }
-                    editor.replaceSelection("\r\n" + tableSeparator);
+                    editor.replaceSelection("\r\n" + tableSeparator + "\r\n|");
+                } else {
+                    editor.replaceSelection("\r\n");
                 }
+            } else if (thisLine.startsWith("* ")) { //auto complete: list
+                if (thisLine.length == 2)
+                    editor.replaceRange("\r\n", {line: editor.getCursor().line, ch: 0}, {line: editor.getCursor().line, ch: 2});
+                else
+                editor.replaceSelection("\r\n* ");
+            } else if (thisLine.split(". ")[0].search(/\d/) == 0) { //auto complete: ordered list
+                var period = thisLine.split(". ");
+                var newNumber = parseInt(period[0]) + 1
+                if (period.length == 2 && period[1] == "")
+                    editor.replaceRange("\r\n", {line: editor.getCursor().line, ch: 0}, {line: editor.getCursor().line + 1, ch: 0});
+                else
+                    editor.replaceSelection("\r\n" + newNumber + ". ");
+            } else {
+                editor.replaceSelection("\r\n");
             }
-            editor.replaceSelection("\r\n");
         }
     }
 });
@@ -78,5 +96,3 @@ function scrollRendered() {
         editor.getScrollerElement().scrollTop = (rendered.scrollTop * scale);
     }, 50)
 };
-
-//auto complete: table
