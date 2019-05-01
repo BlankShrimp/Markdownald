@@ -7,27 +7,6 @@ const path = require('path')
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-let menuTemplate = [{
-  label: 'File',
-  submenu:[{
-    label: 'exit',
-    accelerator: 'Alt+F4',
-    role:'quit'
-  }]
-}, {
-  label: 'Edit',
-  submenu:[
-    {role:'undo'}, 
-    {role:'redo'}, 
-    {type:'separator'},
-    { role: 'cut' },
-    { role: 'copy' },
-    { role: 'paste' },
-    { role: 'delete' },
-    { type: 'separator' },
-    { role: 'selectAll' }]
-}]
-
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({ 
@@ -35,14 +14,8 @@ function createWindow () {
     height: 600,
     webPreferences:{nodeIntegration: true}, 
   })
-
-  const menu = Menu.buildFromTemplate(menuTemplate)
-  // Menu.setApplicationMenu(menu)
-
-  // and load the index.html of the app.
-  // win.loadFile('src/index.html')
-//   win.loadURL(pkg.DEV ? "http://localhost:3000" : `file://${path.join(__dirname, '../src/index.html')}`)
-  win.loadFile('res/index.html')
+  
+  win.loadFile('res/editor.html')
   // Open the DevTools.
   win.webContents.openDevTools()
 

@@ -10,6 +10,9 @@ var editor = CodeMirror.fromTextArea($input[0], {
     theme: "monokai",
     cursorHeight: 0.85,
     lineWrapping:true,
+    styleActiveLine: true,
+    matchBrackets: true,
+    autoCloseBrackets: true,
     extraKeys: {
         Enter: function() {
             var flag1 = true;
