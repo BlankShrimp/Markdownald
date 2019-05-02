@@ -6,6 +6,7 @@
 body {
     overflow-y: auto;
     font-family: "Source Han Sans";
+    font-weight: 300;
 }
 #top {
     margin-top: 2%;
@@ -35,10 +36,24 @@ h1 {
 h2 {
     margin-top: 0px;
     color: #717171;
+    font-weight: 500;
+}
+h3 {
+    font-size: 1.2em;
+    font-weight: 400;
 }
 ul {
     list-style-type: none;
+    padding-left: 0;
 }
 .liitem {
     color: crimson;
+}
+#title-m {
+    color: crimson;
+}
+#accountblock{
+    background: #f0f0f0;
+    height: 150px;
+    margin-right: 0%;
 }
