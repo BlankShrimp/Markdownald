@@ -48,6 +48,11 @@ ul {
 }
 .liitem {
     color: crimson;
+    cursor: pointer;
+}
+.liitem:hover {
+    color: rgb(179, 18, 50);
+    cursor: pointer;
 }
 #title-m {
     color: crimson;
