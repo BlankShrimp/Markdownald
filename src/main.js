@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const pkg = require('../package.json')
 const path = require('path')
 
@@ -12,10 +12,12 @@ function createWindow () {
   win = new BrowserWindow({ 
     width: 800, 
     height: 600,
+    minWidth: 800,
+    minHeight: 600,
     webPreferences:{nodeIntegration: true}, 
   })
   
-  win.loadFile('res/editor.html')
+  win.loadFile('res/index.html')
   // Open the DevTools.
   win.webContents.openDevTools()
 
@@ -52,3 +54,11 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.on('note', function(event, args) {
+  newwin = BrowserWindow.getFocusedWindow();
+  newwin.loadFile('res/editor.html');
+  newwin.webContents.on('did-finish-load', () => {
+    newwin.webContents.send('content', args);
+  })
+})
