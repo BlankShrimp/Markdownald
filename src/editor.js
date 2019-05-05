@@ -4,6 +4,7 @@ const rendered = $('#main')[0];
 const showdown = require('showdown');
 const { ipcRenderer } = require('electron')
 
+var saved = false
 //create editor object
 var editor = CodeMirror.fromTextArea($input[0], {
     mode: "markdown",
@@ -77,6 +78,9 @@ editor.on("change", function(editor, change) {
     html = converter.makeHtml(text);
     insertPosition = document.getElementById("main")
     insertPosition.innerHTML = html;
+
+    ipcRenderer.send('change')
+    saved = false
 })
 
 //set simultaneous scroll
@@ -104,4 +108,8 @@ function scrollRendered() {
 
 ipcRenderer.on('content', (event, arg) => {
     editor.setValue(arg);
+})
+
+ipcRenderer.on('saveNow', () => {
+    saved = true
 })

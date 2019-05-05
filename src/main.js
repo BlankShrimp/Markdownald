@@ -28,6 +28,13 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null
   })
+
+  win.on('blur', () => {
+    if (win.getTitle().startsWith("* ")) {
+      win.setTitle(win.getTitle().substr(2));
+      win.webContents.send('saveNow')
+    }
+  })
 }
 
 // This method will be called when Electron has finished
@@ -69,4 +76,8 @@ ipcMain.on('open', (event, ...args) => {
   win.webContents.on('did-finish-load', () => {
     win.webContents.send('content', args[1]);
   })
+})
+
+ipcMain.on('change', () => {
+  if (!win.getTitle().startsWith("* ")) win.setTitle("* " + win.getTitle())
 })
