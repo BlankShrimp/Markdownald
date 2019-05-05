@@ -1,4 +1,5 @@
 const { clipboard, remote } = require('electron');
+
 let win
 var editor = $('.CodeMirror')[0].CodeMirror;
 let menuTemplate = [{
@@ -7,47 +8,7 @@ let menuTemplate = [{
         label: 'New Note',
         accelerator: 'Ctrl+N',
         click: (item, focusedWindow) => {
-            win = new remote.BrowserWindow({ 
-                width: 800, 
-                height: 600,
-                minWidth: 800,
-                minHeight: 600,
-                webPreferences:{nodeIntegration: true}, 
-              })
-              
-              win.loadFile('res/index.html')
-              // Open the DevTools.
-            
-              // Emitted when the window is closed.
-              win.on('closed', () => {
-                // Dereference the window object, usually you would store windows
-                // in an array if your app supports multi windows, this is the time
-                // when you should delete the corresponding element.
-                win = null
-              })
-        }
-    }, {
-        label: 'New Window',
-        accelerator: 'Shift+Ctrl+N',
-        click: (item, focusedWindow) => {
-            win = new remote.BrowserWindow({ 
-                width: 800, 
-                height: 600,
-                minWidth: 800,
-                minHeight: 600,
-                webPreferences:{nodeIntegration: true}, 
-              })
-              
-              win.loadFile('res/index.html')
-              // Open the DevTools.
-            
-              // Emitted when the window is closed.
-              win.on('closed', () => {
-                // Dereference the window object, usually you would store windows
-                // in an array if your app supports multi windows, this is the time
-                // when you should delete the corresponding element.
-                win = null
-              })
+            ipcRenderer.send('open', 'Untitled Note', '')
         }
     }, {
         type: 'separator'

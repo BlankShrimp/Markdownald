@@ -2,6 +2,7 @@ const $ = require('jquery');
 const $input = $('#input');
 const rendered = $('#main')[0];
 const showdown = require('showdown');
+const { ipcRenderer } = require('electron')
 
 //create editor object
 var editor = CodeMirror.fromTextArea($input[0], {
@@ -91,6 +92,7 @@ editor.on("scroll", function(editor) {
     }, 300)
 })
 rendered.setAttribute("onScroll", "scrollRendered();");
+
 function scrollRendered() {
     var scale = (editor.getScrollerElement().scrollHeight - editor.getScrollerElement().clientHeight) 
     / (rendered.scrollHeight - rendered.clientHeight);
@@ -99,3 +101,7 @@ function scrollRendered() {
         editor.getScrollerElement().scrollTop = (rendered.scrollTop * scale);
     }, 50)
 };
+
+ipcRenderer.on('content', (event, arg) => {
+    editor.setValue(arg);
+})

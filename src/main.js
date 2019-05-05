@@ -55,10 +55,18 @@ app.on('activate', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on('note', function(event, args) {
+ipcMain.on('note', (event, ...args) => {
   newwin = BrowserWindow.getFocusedWindow();
   newwin.loadFile('res/editor.html');
   newwin.webContents.on('did-finish-load', () => {
-    newwin.webContents.send('content', args);
+    newwin.webContents.send('content', args[0]);
+  })
+})
+
+ipcMain.on('open', (event, ...args) => {
+  win.setTitle(args[0] + " - MarkDownald")
+  win.loadFile('res/editor.html');
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send('content', args[1]);
   })
 })
