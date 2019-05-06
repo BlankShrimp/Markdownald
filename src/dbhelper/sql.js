@@ -6,7 +6,7 @@ var sqlite3 = require('sqlite3').verbose();
 
 class HandleDB{
 	constructor(options){
-		this.databaseFile = options && options.databaseFile || 'data/markdownald.db';
+		this.databaseFile = options && options.databaseFile || '../../data/markdownald.db';
 		this.db=null;
 	}
 
@@ -60,7 +60,7 @@ module.exports = HandleDB;
 
 
 let db = new HandleDB({
-    databaseFile: 'data/markdownald.db',
+    databaseFile: '../../data/markdownald.db',
 });
 
 db.connectDataBase().then((result)=>{
