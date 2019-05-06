@@ -82,14 +82,15 @@ db.connectDataBase().then((result)=>{
             Title varchar(255),
             Class varchar(255),
             data MEDIUMTEXT,
-            PersonId int(3),
-            FOREIGN KEY (PersonId) REFERENCES Persons
+            Datetime DATETIME
         );`;
     return db.createTable(noteTable);
 
 }).then((result)=>{
     console.log(result);
+
     doSql();
+
 }).catch((err)=>{
     console.error(err);
 });
@@ -99,9 +100,13 @@ let doSql = function() {
     // addPerson([1,"hdk1","123456","123"]);
     // addPerson([2,"hdk2","1234567","1234"]);
     // addPerson([3,"hdk3","12345678","12345"]);
-    // addNote([1,"title1","class1","data1",1]);
-    // addNote([2,"title2","class2","data2",2]);
-    // addNote([3,"title3","class2","data3",2]);
+    // addNote([1,"title1","class1","data1"]);
+    // addNote([2,"title2","class2","data2"]);
+    // addNote([3,"title3","class2","data3"]);
+    // addNote([4,"title4","class4","data4"]);
+    // addNote([5,"title5","class5","data5"]);
+    // addNote([6,"title6","class6","data6"]);
+    // addNote([7,"title7","class7","data7"]);
     // deletePerson([3]);
     // deleteNote([2]);
     // updateNoteTitle(["title1mod",1]);
@@ -110,8 +115,9 @@ let doSql = function() {
     // updatePassword(["123mod",1]);
     // updatePhone(["12345mod",3]);
     // updatePhone(["1234mod",2]);
-    // selectUser([1]);
     // selectNote([3]);
+    // selectAllnotes();
+    // recentNotes(5);
 
 }
 
@@ -126,7 +132,7 @@ let doSql = function() {
 	}
 
     function addNote(param){
-        db.sql(`insert into Notes (NoteId, Title, Class, data, PersonId) values(?, ?, ?, ?, ?)`,
+        db.sql(`insert into Notes (NoteId, Title, Class, data, Datetime) values(?, ?, ?, ?, datetime('now','localtime'))`,
             param).then((res)=>{
                 console.log(res);
             }).catch((err)=>{
@@ -154,7 +160,7 @@ let doSql = function() {
 
     // update
     function updateNoteTitle(param){
-        db.sql(`update Notes set Title= ? where NoteId = ?`, param).then((res)=>{
+        db.sql(`update Notes set Title = ? ,Datetime = datetime('now','localtime') where NoteId = ?`, param).then((res)=>{
             console.log(res);
         }).catch((err)=>{
             console.log(err);
@@ -162,7 +168,7 @@ let doSql = function() {
     }
 
     function updateNoteClass(param){
-        db.sql(`update Notes set Class= ? where NoteId = ?`, param).then((res)=>{
+        db.sql(`update Notes set Class = ? ,Datetime = datetime('now','localtime') where NoteId = ?`, param).then((res)=>{
             console.log(res);
         }).catch((err)=>{
             console.log(err);
@@ -170,7 +176,7 @@ let doSql = function() {
     }
 
 	function updateNoteData(param){  
-	    db.sql(`update Notes set data= ? where NoteId = ?`, param).then((res)=>{
+	    db.sql(`update Notes set data= ? ,Datetime = datetime('now','localtime') where NoteId = ?`, param).then((res)=>{
 	        console.log(res);
 	    }).catch((err)=>{
 	        console.log(err);
@@ -194,22 +200,29 @@ let doSql = function() {
     }
 
     // select
-	function selectUser(param){
-	    db.sql(`select * from Notes where PersonId = ?`, param, 'all').then((res)=>{
-	        console.log(res);
-	    }).catch((err)=>{
-	        console.log(err);
-	    });
-	};
-
     function selectNote(param){
-        db.sql(`select * from Notes where NoteId = ?`, param, 'all').then((res)=>{
+        db.sql(`select * from Notes where NoteId = ?`, param,'get').then((res)=>{
             console.log(res);
         }).catch((err)=>{
             console.log(err);
         });
     }
 
+    function recentNotes(param){
+        db.sql(`select * from Notes ORDER BY Datetime DESC limit ?`,param,'all').then((res)=>{
+            console.log(res);
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
+
+    function selectAllnotes(param){
+        db.sql(`select * from Notes`,param,'all').then((res)=>{
+            console.log(res);
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
 
 
 
