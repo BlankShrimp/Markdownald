@@ -1,7 +1,7 @@
-var fs = require('fs');
-var file = 'markdownald.db';
-var exists = fs.existsSync(file);
-var sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
+const file = 'markdownald.db';
+const exists = fs.existsSync(file);
+const sqlite3 = require('sqlite3').verbose();
 
 
 class HandleDB{
