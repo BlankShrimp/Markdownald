@@ -37,12 +37,20 @@ var editor = CodeMirror.fromTextArea($input[0], {
                         }
                     }
                 }
+                var previousLine = "a"
+                if (editor.getCursor().line > 1) {
+                    previousLine = editor.getLine(editor.getCursor().line - 1);
+                }
+                if (previousLine.startsWith("|")) {
+                    flag1 = false
+                    flag2 = false
+                }
                 if (flag1 || flag2) {
                     tableSeparator = "|"
                     for (let i = 2; i < count; i++) {
                         tableSeparator += "-----|";
                     }
-                    editor.replaceSelection("\r\n" + tableSeparator + "\r\n|");
+                    editor.replaceSelection("\r\n" + tableSeparator + "\r\n|" + previousLine);
                 } else {
                     editor.replaceSelection("\r\n");
                 }
