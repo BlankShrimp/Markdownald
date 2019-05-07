@@ -65,14 +65,13 @@ let db = new HandleDB({
 
 db.connectDataBase().then((result)=>{
     console.log(result);
-    // create table
+    // create(load) table
 
     let personTable =`
         create table if not exists Persons (
             PersonId int(3) PRIMARY KEY,
             Name varchar(255) NOT NULL,
-            Password varchar(255) NOT NULL,
-            phone varchar(255) NOT NULL
+            Password varchar(255) NOT NULL
         );`;
         db.createTable(personTable);
 
@@ -97,9 +96,9 @@ db.connectDataBase().then((result)=>{
 
 let doSql = function() {
 
-    // addPerson([1,"hdk1","123456","123"]);
-    // addPerson([2,"hdk2","1234567","1234"]);
-    // addPerson([3,"hdk3","12345678","12345"]);
+    // addPerson([1,"hdk1","123456"]);
+    // addPerson([2,"hdk2","1234567"]);
+    // addPerson([3,"hdk3","12345678"]);
     // addNote([1,"title1","class1","data1"]);
     // addNote([2,"title2","class2","data2"]);
     // addNote([3,"title3","class2","data3"]);
@@ -123,7 +122,7 @@ let doSql = function() {
 
     // add
 	function addPerson(param){
-	    db.sql(`insert into Persons (PersonId, Name, Password, phone) values(?, ?, ?, ?)`,
+	    db.sql(`insert into Persons (PersonId, Name, Password) values(?, ?, ?)`,
 	        param).then((res)=>{
 	        console.log(res);
 	    }).catch((err)=>{
