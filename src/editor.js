@@ -50,7 +50,7 @@ var editor = CodeMirror.fromTextArea($input[0], {
                     for (let i = 2; i < count; i++) {
                         tableSeparator += "-----|";
                     }
-                    editor.replaceSelection("\r\n" + tableSeparator + "\r\n|" + previousLine);
+                    editor.replaceSelection("\r\n" + tableSeparator + "\r\n|");
                 } else {
                     editor.replaceSelection("\r\n");
                 }
