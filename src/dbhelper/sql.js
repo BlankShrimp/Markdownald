@@ -67,6 +67,13 @@ db.connectDataBase().then((result)=>{
     console.log(result);
     // create(load) table
 
+    let supportTable =`
+        create table if not exists Support (
+            Name varchar(255) PRIMARY KEY,
+            Content varchar(255)
+        );`;
+        db.createTable(supportTable);
+
     let personTable =`
         create table if not exists Persons (
             PersonId int(3) PRIMARY KEY,
@@ -74,12 +81,23 @@ db.connectDataBase().then((result)=>{
             Password varchar(255) NOT NULL
         );`;
         db.createTable(personTable);
+    
+    let directoryTable =`
+        create table if not exists Directories (
+            id int(3) PRIMARY KEY,
+            Value varchar(255) NOT NULL,
+            NoteId int(3) UNIQUE,
+            ParentId int(3) NOT NULL,
+            key varchar(255) NOT NULL,
+            level int(3) NOT NULL,
+            FOREIGN KEY(NoteId) REFERENCES Notes(NoteId) on delete cascade on update cascade
+        );`;
+        db.createTable(directoryTable);
 
     let noteTable = `
        create table if not exists Notes(
             NoteId int(3) PRIMARY KEY, 
             Title varchar(255),
-            Class varchar(255),
             data MEDIUMTEXT,
             Datetime DATETIME
         );`;
@@ -95,25 +113,24 @@ db.connectDataBase().then((result)=>{
 });
 
 let doSql = function() {
-
+    addSupport(["MarkdownTutorial","Content1"]);
+    addSupport(["ServerGuide","Content2"]);
     // addPerson([1,"hdk1","123456"]);
     // addPerson([2,"hdk2","1234567"]);
     // addPerson([3,"hdk3","12345678"]);
-    // addNote([1,"title1","class1","data1"]);
-    // addNote([2,"title2","class2","data2"]);
-    // addNote([3,"title3","class2","data3"]);
-    // addNote([4,"title4","class4","data4"]);
-    // addNote([5,"title5","class5","data5"]);
-    // addNote([6,"title6","class6","data6"]);
-    // addNote([7,"title7","class7","data7"]);
+    // addNote([1,"title1","data1"],[1,"gf1",1,0,"0",1]);
+    // addNote([2,"title2","data2"],[2,"gf2",2,0,"0",1]);
+    // addNote([3,"title3","data3"],[3,"f1_1",3,1,"0-1",2]);
+    // addNote([4,"title4","data4"],[4,"f1_2",4,1,"0-1",2]);
+    // addNote([5,"title5","data5"],[5,"f2_1",5,2,"0-2",2]);
+    // addNote([6,"title6","data6"],[6,"s1_1_1",6,3,"0-1-3",3]);
+    // addNote([7,"title7","data7"],[7,"s1_1_2",7,3,"0-1-3",3]);
     // deletePerson([3]);
     // deleteNote([2]);
     // updateNoteTitle(["title1mod",1]);
-    // updateNoteClass(["class2mod",3]);
+    // updateNoteDirectory(["s2_1_1",5,"0-2-5",3,7],[7]);
     // updateNoteData(["data1mod",1]);
     // updatePassword(["123mod",1]);
-    // updatePhone(["12345mod",3]);
-    // updatePhone(["1234mod",2]);
     // selectNote([3]);
     // selectAllnotes();
     // recentNotes(5);
@@ -130,15 +147,26 @@ let doSql = function() {
 	    });
 	}
 
-    function addNote(param){
-        db.sql(`insert into Notes (NoteId, Title, Class, data, Datetime) values(?, ?, ?, ?, datetime('now','localtime'))`,
-            param).then((res)=>{
+    function addNote(param1,param2){
+        db.sql(`insert into Notes (NoteId, Title, data, Datetime) values(?, ?, ?, datetime('now','localtime'))`, param1).then((res)=>{
                 console.log(res);
             }).catch((err)=>{
                 console.log(err);
             });
+        db.sql(`insert into Directories (id, Value, NoteId,ParentId,key,level) values(?,?,?,?,?,?)`, param2).then((res)=>{
+            console.log(res);
+        }).catch((err)=>{
+            console.log(err);
+        });
     }
     
+    function addSupport(param){
+        db.sql(`insert OR ignore into Support (Name, Content) values(?, ?) `,param).then((res)=>{
+            console.log(res);
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
     // delete
     function deletePerson(param){
         db.sql(`delete from Persons where Personid = ?`, param).then((res)=>{
@@ -166,8 +194,9 @@ let doSql = function() {
         });
     }
 
-    function updateNoteClass(param){
-        db.sql(`update Notes set Class = ? ,Datetime = datetime('now','localtime') where NoteId = ?`, param).then((res)=>{
+    function updateNoteDirectory(param1,param2){
+        db.sql(`update Directories set Value = ? ,ParentId= ?, key=?,level=? where NoteId = ?`, param1);
+        db.sql(`update Notes set Datetime = datetime('now','localtime') where NoteID = ?`,param2).then((res)=>{
             console.log(res);
         }).catch((err)=>{
             console.log(err);
@@ -184,14 +213,6 @@ let doSql = function() {
 
     function updatePassword(param){
         db.sql(`update Persons set Password= ? where PersonId = ?`, param).then((res)=>{
-            console.log(res);
-        }).catch((err)=>{
-            console.log(err);
-        });
-    }
-
-    function updatePhone(param){
-        db.sql(`update Persons set phone= ? where PersonId = ?`, param).then((res)=>{
             console.log(res);
         }).catch((err)=>{
             console.log(err);
