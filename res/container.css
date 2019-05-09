@@ -4,11 +4,39 @@ body, html {
     padding: 0;
     margin: 0;
     font-family: "Source Han Sans" !important;
+    overflow-x: hidden;
 }
 
 #container {
     width: 100%;
     height: calc(100vh - 31px);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transition: .5s ease all;
+    transition: .5s ease all;
+}
+
+#dirs {
+    width: 299px;
+    border-right: #f0f0f0 solid 1px;
+    height: 100%;
+    position: absolute;
+    left: -300px;
+    top: 0;
+    -webkit-transition: .5s ease all;
+    transition: .5s ease all;
+    -webkit-transform: translateX(300px);
+    transform: translateX(300px);
+}
+
+body.display-nav #container {
+    -webkit-transform: translateX(300px);
+    transform: translateX(300px);
+}
+
+body.display-nav #dirs {
+    -webkit-transform: translateX(0px);
+    transform: translateX(0px);
 }
 
 #statusbar {
