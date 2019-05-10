@@ -16,6 +16,8 @@ body, html {
     transition: .5s ease all;
 }
 
+/* #####Nav pane */
+
 #dirs {
     width: 299px;
     border-right: #f0f0f0 solid 1px;
@@ -39,13 +41,7 @@ body.display-nav #dirs {
     transform: translateX(0px);
 }
 
-#statusbar {
-    width: calc(100% - 16px);
-    height: 30px;
-    border-top: #f0f0f0 solid 1px;
-    padding-left: 8px;
-    padding-right: 8px;
-}
+/* #####rendered view */
 
 #main {
     width: 46%;
@@ -55,6 +51,8 @@ body.display-nav #dirs {
     padding-left: 2%;
     padding-right: 2%;
 }
+
+/* #####codemirror */
 
 #sidebar {
     float: left;
@@ -69,6 +67,123 @@ body.display-nav #dirs {
 .CodeMirror {
     height: 100% !important;
     font: 20px !important;
+}
+
+/* #####account pane */
+
+.accountpane {
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.2), 0 6px 40px 0 rgba(0, 0, 0, 0.19);
+    left: calc(100% - 210px);
+    top: calc(100% - 340px);
+    background: #ffffff;
+    text-align: center;
+    user-select: none;
+}
+
+.titlewrapper {
+    width: min-content;
+    margin: auto;
+}
+
+.title-m {
+    color: crimson;
+}
+
+.accountpane h1 {
+    font-size: 150%;
+    font-weight: 600;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    position: relative;
+    width: min-content;
+}
+
+.accountpane h1::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: crimson;
+    transform-origin: bottom right;
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+}
+
+.accountpane h1:hover::before {
+    transform-origin: bottom left;
+    transform: scaleX(1);
+}
+
+.account-butts {
+    margin-top: 20px;
+    width: 100px;
+    z-index: 1;
+    position: relative;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0.5em 1em;
+    outline: none;
+    border: none;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    transition: color 0.4s ease-in-out;
+}
+
+.account-butts::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: crimson;
+    transform-origin: center;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.account-butts:hover {
+    cursor: pointer;
+    color: white;
+}
+
+.account-butts:hover::before {
+    transform: translate(-50%, -50%) scale(15);
+}
+
+#regpane .account-butts {
+    width: 71px;
+    font-size: 0.8em;
+    margin-top: 0%;
+}
+
+#loginpane .account-butts {
+    width: 70px;
+    font-size: 0.8em;
+    margin-top: 0%;
+}
+
+#customizepane .account-butts {
+    width: 70px;
+    font-size: 0.8em;
+    margin-top: 0%;
+}
+
+/* #####status bar */
+
+#statusbar {
+    width: calc(100% - 16px);
+    height: 30px;
+    border-top: #f0f0f0 solid 1px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .status-btt {
@@ -96,4 +211,97 @@ body.display-nav #dirs {
 
 #account-btt {
     float: right;
+}
+
+/* */
+
+/* */
+
+/* */
+
+/* reg pane input styles*/
+
+.inputpane {
+    position: relative;
+    width: min-content;
+    margin: auto;
+    margin-bottom: 5px;
+}
+
+.inputpane input {
+    width: 8em;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: #f0f0f0;
+    padding: 0.35em 0.45em;
+    border: 1px solid transparent;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.inputpane input:focus {
+    outline: none;
+}
+
+.inputpane input::placeholder {
+    color: #000000;
+}
+
+.inputpane span {
+    position: absolute;
+    background-color: crimson;
+    transition: transform 0.5s ease;
+}
+
+.inputpane .bottom, .top {
+    height: 1px;
+    left: 0;
+    right: 0;
+    transform: scaleX(0);
+}
+
+.inputpane .left, .right {
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    transform: scaleY(0);
+}
+
+.inputpane .bottom {
+    bottom: 0;
+    transform-origin: bottom right;
+}
+
+.inputpane input:focus~.bottom {
+    transform-origin: bottom left;
+    transform: scaleX(1);
+}
+
+.inputpane .right {
+    right: 0;
+    transform-origin: top right;
+}
+
+.inputpane input:focus~.right {
+    transform-origin: bottom right;
+    transform: scaleY(1);
+}
+
+.inputpane .top {
+    top: 0;
+    transform-origin: top left;
+}
+
+.inputpane input:focus~.top {
+    transform-origin: top right;
+    transform: scaleX(1);
+}
+
+.inputpane .left {
+    left: 0;
+    transform-origin: bottom left;
+}
+
+.inputpane input:focus~.left {
+    transform-origin: top left;
+    transform: scaleY(1);
 }
