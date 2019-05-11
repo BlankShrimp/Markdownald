@@ -1,8 +1,13 @@
 var sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-var db = new sqlite3.Database(path.join('../../data/','markdownald.db'));
 var fs = require('fs');
+const path = require('path');
 
+
+// load(or create) db
+var db = new sqlite3.Database(path.join('../../data/','markdownald.db'));
+//
+
+// create table
 db.serialize(function(){
     db.run(`
         create table if not exists Support(
@@ -34,11 +39,12 @@ db.serialize(function(){
         );`);
 });
 
-addSupport(["MarkdownTutorial","Content1"]);
-addSupport(["ServerGuide","Content2"]);
+////Below are all sample calls
+// addSupport(["MarkdownTutorial","Content1"]);
+// addSupport(["ServerGuide","Content2"]);
+// addPerson(["fordai","dzj","12345678"]);
 // addPerson(["donk","hdk1","123456"]);
 // addPerson(["miyaaa","lmy","1234567"]);
-// addPerson(["fordai","dzj","12345678"]);
 // addNote([1,"title1","data1",1],[1,"Year1",0,"0",1]);
 // addNote([2,"title2","data2",2],[2,"Year2",0,"0",1]);
 // addNote([3,"title3","data3",3],[3,"S1",1,"0-1",2]);
@@ -58,12 +64,10 @@ addSupport(["ServerGuide","Content2"]);
 // renameFolder(["CSE",5]);
 // selectNote([3]);
 // selectAllnotes();
-// var a=JSON.stringify(getResult());
-// console.log(a);
-// deleteTemp();
 // viewsubFolder(3);
 // viewFolderContent(3);
 
+// //read file (Timeout may require)
 // setTimeout(function(){
 //     var data=fs.readFileSync('temp.txt','utf-8');
 //     console.log(data);
@@ -74,62 +78,84 @@ addSupport(["ServerGuide","Content2"]);
 
 
 // add:
+// add user  param:[PersonId, Name, Password]
 function addPerson(param){
     db.run(`insert into Persons (PersonId, Name, Password) values(?, ?, ?)`,param);
 }
 
+// add note  param1:[NoteId, Title, data, FolderId]
+//           param2:[FolderId, FolderName,ParentId,key,level]
 function addNote(param1,param2){
     db.run(`insert into Notes (NoteId, Title, data, FolderId, ModifyTime,ViewTime) values(?, ?, ?, ?, datetime('now','localtime'),datetime('now','localtime'))`, param1);
     db.run(`insert OR ignore into Directories (FolderId, FolderName,ParentId,key,level) values(?,?,?,?,?)`, param2);
 }
 
+// add support documents    param:[Name, Content]
 function addSupport(param){
     db.run(`insert OR ignore into Support (Name, Content) values(?, ?) `,param);
 }
 
 
+
+
 // delete:
+// delete user  param:[Personid]
 function deletePerson(param){
     db.run(`delete from Persons where Personid = ?`, param);
 }
 
+//delete note   param:[Noteid]
 function deleteNote(param){
     db.run(`delete from Notes where Noteid = ?`, param);
 }
 
 
-//update
+
+
+// update
+// update title     param:[Title,NoteId]
 function updateNoteTitle(param){
     db.run(`update Notes set Title = ? ,ModifyTime = datetime('now','localtime') where NoteId = ?`, param);
 }
 
+// update directory     param1:[FolderId,NoteID]
+//                      param2:[FolderId, FolderName,ParentId,key,level]
 function updateNoteDirectory(param1,param2){
     db.run(`update Notes set FolderId=?, ModifyTime = datetime('now','localtime') where NoteID = ?`,param1);
     db.run(`insert OR ignore into Directories (FolderId, FolderName,ParentId,key,level) values(?,?,?,?,?)`, param2);
 }
 
+// update note content  param:[data,NoteId]
 function updateNoteData(param){  
     db.run(`update Notes set data= ? ,ModifyTime = datetime('now','localtime') where NoteId = ?`, param);
 }
 
+// update last view time    param:[NoteId]
 function updataViewtime(param){
     db.run(`update Notes set ViewTime= datetime('now','localtime') where NoteId = ?`, param);
 }
 
+// update  user's nickname  param:[Name,PersonId]
 function updateName(param){
     db.run(`update Persons set Name = ? where PersonId = ?`, param);
 }
 
+// update  user's password  param:[Password,PersonId]
 function updatePassword(param){
     db.run(`update Persons set Password = ? where PersonId = ?`, param);
 }
 
+// rename the folder(note class)    param:[FolderName,FolderId]
 function renameFolder(param){
     db.run(`update Directories set FolderName = ? where FolderId = ?`,param);
 }
 
-// select
 
+
+// select (each is done by write data into a 'temp.txt' file,
+//         need to read the file for further process)
+
+// select note      param:[NoteId]
 function selectNote(param){
     db.get(`select NoteId,Title,data from Notes where NoteId = ?`, param,function(err,res){
         var result=JSON.stringify(res);
@@ -144,6 +170,7 @@ function selectNote(param){
 });
 }
 
+// view recent notes    param:[number of notes required]
 function recentNotes(param){
       db.all(`select NoteId,Title,data from Notes ORDER BY ModifyTime DESC limit ?`,param,
         function(err,res){
@@ -158,8 +185,9 @@ function recentNotes(param){
     });
 }      
 
-function selectAllnotes(param){
-    db.all(`select NoteId,Title,data from Notes`,param,
+// all notes    
+function selectAllnotes(){
+    db.all(`select NoteId,Title,data from Notes`,
         function(err,res){
         var result = JSON.stringify(res);
         fs.writeFile('temp.txt',result,function(err){
@@ -172,7 +200,8 @@ function selectAllnotes(param){
     });
 }
 
-    
+// view all the sub-folders of the current folder
+//    param:[FolderId]   
 function viewsubFolder(param){
     db.get(`select FolderId,key,level from Directories where FolderId = ?`,param,function(err,res){
             var pattern = res.key+'-'+res.FolderId;
@@ -189,6 +218,8 @@ function viewsubFolder(param){
         });
     }
  
+// view all the notes in the current folder
+//  param:[FolderId]
 function viewFolderContent(param){
     db.all(`select NoteId,Title,data from Notes where FolderId = ?`,param,function(err,res){
         var result=JSON.stringify(res);
@@ -202,13 +233,29 @@ function viewFolderContent(param){
     });
 }
 
+// view the particular support documents    param:[Name]
+function viewSupportDoc(param){
+    db.get(`select Content from Notes where Name = ?`, param,function(err,res){
+        var result=JSON.stringify(res);
+        fs.writeFile('temp.txt',result,function(err){
+            if (err) {
+                console.log(err);
+            }else{
+                console.log("finish");
+            }
+        })
+    });
+}
 
+
+// read the 'temp.txt' file
 function getResult(){
     var data=fs.readFileSync('temp.txt','utf-8');
     return data;
 }
 
 
+// delete the 'temp.txt' file
 function deleteTemp(){
     fs.unlink('temp.txt',function(error){
     if(error){
@@ -217,7 +264,6 @@ function deleteTemp(){
     }
     console.log('deleted');
 });
-
 }
 
 
