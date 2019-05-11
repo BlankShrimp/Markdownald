@@ -22,7 +22,7 @@ const opened_folder = 'M928 444H820V330.4c0-17.7-14.3-32-32-32H473L355.7 186.2c-
 
 //flags
 var saved = false
-var logined = false
+var logined = true
 var atRegPage = false
 var atLoginPage = false
 var atCustomPage = false
@@ -111,7 +111,7 @@ editor.on("change", function (editor, change) {
 
     ipcRenderer.send('change')
     saved = false
-    stat.setAttribute('fill', 'red');
+    stat.setAttribute('fill', 'orange');
 })
 
 //set simultaneous scroll
@@ -143,6 +143,7 @@ ipcRenderer.on('content', (event, arg) => {
 
 ipcRenderer.on('saveNow', () => {
     saved = true
+    stat.setAttribute('fill', 'green');
 })
 
 function toggleNavigation() {
@@ -160,7 +161,15 @@ dirs_butt.setAttribute('onClick', 'toggleNavigation();');
 
 function toggleAccountPane() {
     if (logined) {
-
+        if ($('#accountstatpane').hasClass('display-acc')) {
+            $('#accountstatpane')[0].setAttribute('style', 'visibility:hidden');
+            $('#accountstatpane').removeClass('display-acc');
+            account_butt.removeAttribute('style');
+        } else {//这里的逻辑需要小心
+            $('#accountstatpane').addClass('display-acc');
+            $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
+            account_butt.setAttribute('style', 'background: #f0f0f0');
+        }
     } else if (atRegPage) {
         $('#regpane')[0].setAttribute('style', 'visibility:hidden');
         atRegPage = false
@@ -181,7 +190,7 @@ function toggleAccountPane() {
             $('#welcomepane')[0].setAttribute('style', 'visibility:hidden');
             $('#welcomepane').removeClass('display-acc');
             account_butt.removeAttribute('style');
-        } else {//这里的逻辑需要小心
+        } else {
             $('#welcomepane').addClass('display-acc');
             $('#welcomepane')[0].setAttribute('style', 'visibility:visible');
             account_butt.setAttribute('style', 'background: #f0f0f0');

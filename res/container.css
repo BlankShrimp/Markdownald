@@ -213,6 +213,37 @@ body.display-nav #dirs {
     float: right;
 }
 
+progress[value] {
+    /* Reset the default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+}
+
+progress[value]::-webkit-progress-bar {
+    background-color: #f0f0f0;
+}
+
+progress[value]::-webkit-progress-value {
+    background-color: crimson;
+}
+
+#spacediv p {
+    float: left;
+    margin-top: 0px;
+    font-size: 0.9em;
+}
+
+#spacediv #spacevalue {
+    float: right;
+}
+
+#accountstatpane button {
+    position: fixed;
+    bottom: 50px;
+    right: 100px;
+}
+
 /* */
 
 /* */
