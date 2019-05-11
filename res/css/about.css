@@ -39,26 +39,38 @@ h2 {
     font-weight: 500;
 }
 h3 {
+    color: crimson;
     font-size: 1.2em;
     font-weight: 400;
-}
-ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-.liitem {
-    color: crimson;
-    cursor: pointer;
-}
-.liitem:hover {
-    color: rgb(179, 18, 50);
-    cursor: pointer;
 }
 #title-m {
     color: crimson;
 }
-#accountblock{
-    background: #f0f0f0;
-    height: 150px;
-    margin-right: 0%;
+
+td {
+    padding-left: 40px;
+}
+
+.td2nd {
+    padding-left: 60px;
+}
+
+a:link {
+    color: crimson;
+}
+
+a:visited {
+    color: crimson;
+}
+
+.github {
+    padding-left: 40px;
+}
+
+#licensedecla {
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+#licensedecla p {
+    padding-left: 40px;
 }

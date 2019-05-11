@@ -3,11 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="container.css" />
+  <link rel="stylesheet" href="css/container.css" />
   <link rel="stylesheet" href="codemirror-5.46.0/lib/codemirror.css" />
-  <link rel="stylesheet" href="theme.css" />
-  <!-- <link rel="stylesheet" href="rendered.css" />
-    <link rel="stylesheet" href="foundation.css" /> -->
+  <link rel="stylesheet" href="css/theme.css" />
   <script src="codemirror-5.46.0/lib/codemirror.js"></script>
   <script src="codemirror-5.46.0/mode/markdown/markdown.js"></script>
   <script src="codemirror-5.46.0/addon/selection/active-line.js"></script>
@@ -72,7 +70,7 @@
     <button id="cancelreg" class="account-butts">Cancel</button>
     <button id="signup" class="account-butts">Sign up</button>
   </div>
-  
+
   <div id="loginpane" class="accountpane" style="visibility:hidden">
     <div class="titlewrapper">
       <h1><a class="title-m">M</a>arkDownald</h1>
@@ -94,7 +92,7 @@
     <button id="cancellogin" class="account-butts">Cancel</button>
     <button id="confirmlogin" class="account-butts">Sign in</button>
   </div>
-  
+
   <div id="customizepane" class="accountpane" style="visibility:hidden">
     <div class="inputpane" style="margin-top: 40px">
       <input type="text" placeholder="Server addr.">
@@ -148,6 +146,15 @@
   </div>
 
   <div id="statusbar">
+    <div class="status-btt" id="add-btt">
+      <svg t="1557323336123" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        p-id="8964" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18">
+        <defs>
+          <style type="text/css"></style>
+        </defs>
+        <path d="M474 152m8 0l60 0q8 0 8 8l0 704q0 8-8 8l-60 0q-8 0-8-8l0-704q0-8 8-8Z" p-id="8491" fill="#777777"></path>
+        <path d="M168 474m8 0l672 0q8 0 8 8l0 60q0 8-8 8l-672 0q-8 0-8-8l0-60q0-8 8-8Z" p-id="8492" fill="#777777"></path>
+      </svg></div>
     <div class="status-btt" id="list-btt">
       <svg t="1557323336123" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
         p-id="8964" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18">
@@ -186,10 +193,10 @@
         <circle id="account-stat" cx="8" cy="8" r="2.5" fill="green" />
       </svg>
     </div>
-
-    <script src="../src/editor.js"></script>
-    <script src="../src/menu.js"></script>
   </div>
+
+  <script src="../src/editor.js"></script>
+  <script src="../src/menu.js"></script>
 </body>
 
 </html>
