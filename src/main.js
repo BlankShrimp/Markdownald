@@ -17,7 +17,7 @@ function createWindow () {
     webPreferences:{nodeIntegration: true}, 
   })
   
-  win.loadFile('res/index.html')
+  win.loadFile('res/editor.html')
   // Open the DevTools.
   win.webContents.openDevTools()
 
@@ -62,14 +62,6 @@ app.on('activate', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on('note', (event, ...args) => {
-  newwin = BrowserWindow.getFocusedWindow();
-  newwin.loadFile('res/editor.html');
-  newwin.webContents.on('did-finish-load', () => {
-    newwin.webContents.send('content', args[0]);
-  })
-})
-
 ipcMain.on('open', (event, ...args) => {
   win.setTitle(args[0] + " - MarkDownald")
   win.loadFile('res/editor.html');
@@ -80,4 +72,24 @@ ipcMain.on('open', (event, ...args) => {
 
 ipcMain.on('change', () => {
   if (!win.getTitle().startsWith("* ")) win.setTitle("* " + win.getTitle())
+})
+
+ipcMain.on('about', ()=> {
+  let about = new BrowserWindow({
+    parent: win, 
+    width: 480, 
+    height: 320,
+    resizable: false,
+    minimizable: false,
+    maximizable: false,
+    fullscreenable: false,
+    skipTaskbar: true,
+    alwaysOnTop: true,
+    frame: false,
+    title: "About - MarkDownald"
+  })
+  about.loadFile('res/about.html');
+  about.on('blur', () => {
+    about.close();
+  })
 })

@@ -62,8 +62,9 @@ let menuTemplate = [{
             editor.replaceSelection('');
             editor.focus();
         }
-    },
-    { type: 'separator' }, {
+    }, { 
+        type: 'separator' 
+    }, {
         label: 'Bold',
         accelerator: 'Ctrl+B',
         click: (item, focusedWindow) => {
@@ -92,14 +93,25 @@ let menuTemplate = [{
     submenu: [
         { role: 'reload' },
         { role: 'forcereload' },
-        { role: 'toggledevtools' },
-        { type: 'separator' },
-        { role: 'resetzoom' },
-        { role: 'zoomin' },
-        { role: 'zoomout' },
         { type: 'separator' },
         { role: 'togglefullscreen' }
     ]
+}, {
+    role: 'Help',
+    submenu: [{
+        label: 'Markdown Tutorial'
+    }, {
+        label: 'Server Build Guide'
+    }, {
+        label: "What's new"
+    }, {
+        type: 'separator'
+    }, {
+        label: 'About',
+        click: (item, focusedWindow) => {
+            ipcRenderer.send('about')
+        }
+    }]
 }];
 
 var menu = remote.Menu.buildFromTemplate(menuTemplate);

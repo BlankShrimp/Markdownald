@@ -7,42 +7,51 @@ body {
     overflow-y: auto;
     font-family: "Source Han Sans";
     font-weight: 300;
+    user-select: none;
 }
+
 #top {
     margin-top: 2%;
     margin-left: 5%;
     margin-right: 5%;
 }
+
 #bottom {
     margin-top: 2%;
     margin-left: 5%;
     margin-right: 5%;
 }
-#left{
+
+#left {
     float: left;
     width: 50%;
     height: 100%;
 }
-#right{
+
+#right {
     width: 50%;
     height: 100%;
     float: right;
     overflow: auto;
 }
+
 h1 {
     margin-bottom: 0px;
     color: #616161;
 }
+
 h2 {
     margin-top: 0px;
     color: #717171;
     font-weight: 500;
 }
+
 h3 {
     color: crimson;
     font-size: 1.2em;
     font-weight: 400;
 }
+
 #title-m {
     color: crimson;
 }
@@ -68,9 +77,20 @@ a:visited {
 }
 
 #licensedecla {
-    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 #licensedecla p {
     padding-left: 40px;
+}
+::-webkit-scrollbar { /*滚动条整体样式*/
+    width: 13px;
+}
+
+::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+    background: rgba(20, 20, 20, 0.6);
+}
+
+::-webkit-scrollbar-track { /*滚动条里面轨道*/
+    background: #ffffff;
 }
