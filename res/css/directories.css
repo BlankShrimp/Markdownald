@@ -1,0 +1,23 @@
+#f0 {
+    list-style: none;
+    padding-left: 20px;
+}
+
+#f0 ul {
+    list-style: none;
+    padding-left: 15px;
+}
+
+.name {
+    display: inline-block;
+    height: 20px;
+}
+
+.file {
+    margin-left: 0px;
+}
+
+.file:hover {
+    color: crimson;
+    cursor: pointer;
+}

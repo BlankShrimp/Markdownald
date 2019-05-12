@@ -7,16 +7,16 @@ const path = require('path')
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({ 
-    width: 1024, 
+  win = new BrowserWindow({
+    width: 1024,
     height: 768,
     minWidth: 800,
     minHeight: 600,
-    webPreferences:{nodeIntegration: true}, 
+    webPreferences: { nodeIntegration: true },
   })
-  
+
   win.loadFile('res/editor.html')
   // Open the DevTools.
   win.webContents.openDevTools()
@@ -64,20 +64,17 @@ app.on('activate', () => {
 
 ipcMain.on('open', (event, ...args) => {
   win.setTitle(args[0] + " - MarkDownald")
-  win.loadFile('res/editor.html');
-  win.webContents.on('did-finish-load', () => {
-    win.webContents.send('content', args[1]);
-  })
+  win.webContents.send('content', args[1]);
 })
 
 ipcMain.on('change', () => {
   if (!win.getTitle().startsWith("* ")) win.setTitle("* " + win.getTitle())
 })
 
-ipcMain.on('about', ()=> {
+ipcMain.on('about', () => {
   let about = new BrowserWindow({
-    parent: win, 
-    width: 480, 
+    parent: win,
+    width: 480,
     height: 320,
     resizable: false,
     minimizable: false,
