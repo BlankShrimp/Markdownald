@@ -109,9 +109,3 @@ module.exports={
 	registerReq,
 	updateNoteReq
 }
-
-// var request = `{
-// 					"operate":"ogin", 
-// 					"pid":"hdk", 
-// 					"password":"hdk"
-// 				}`;
