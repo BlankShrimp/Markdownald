@@ -1,109 +1,229 @@
 var net = require('net');
+const { ipcRenderer } = require('electron')
+var fs = require('fs');
 
-// loginReq("hdk","hdk");
-function loginReq(pid,password){
-
+function reg(userid, passwd, nickname) {
 	var client = new net.Socket();
-	var request = `{"operate":"login", "pid":"${pid}", "password":"${password}"}`;
+	var msg = `{"instruction":"reg", "userid":"${userid}", "passwd":"${passwd}", "nickname":"${nickname}"}`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
 
-	client.connect(9997,'101.132.106.166',function(){
-		client.write(request);
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
 	});
 
-
-	client.on('data',function(data){
-		console.log('from server'+ data);
+	client.on('error', function (error) {
+		client.destroy();
 	});
 
-	client.on('error',function(error){
-
-	  console.log('error:'+error);
-	  client.destroy();
-	});
-
-	client.on('close',function(){
-	  console.log('Connection closed');
+	client.on('close', function () {
 	});
 }
 
-
-// addNoteReq(7,"hdkk","cold","hdkdh","hdk");
-function addNoteReq(nid,title,noteclass,data,pid){
+function addNote(userid, passwd, noteid, title, folderid, value) {
 	var client = new net.Socket();
-	var request = `{"operate":"addNote", "nid":${nid}, "title":"${title}", "class":"${noteclass}", "data":"${data}", "pid":"${pid}"}`;
-	
-	client.connect(9997,'101.132.106.166',function(){
-		client.write(request);
+	var msg = `{"instruction":"add_note", "userid":"${userid}", "passwd":"${passwd}", "noteid":${noteid}, "title":"${title}", "folderid":${folderid}, "value":"${value}"}`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
 	});
 
-
-	client.on('data',function(data){
-		console.log('from server'+ data);
+	client.on('error', function (error) {
+		client.destroy();
 	});
 
-	client.on('error',function(error){
-
-	  console.log('error:'+error);
-	  client.destroy();
-	});
-
-	client.on('close',function(){
-	  console.log('Connection closed');
+	client.on('close', function () {
 	});
 }
 
-// registerReq("lmy","miyaaa","123abc");
-function registerReq(pid,name,password){
+function delNote(userid, passwd, noteid) {
 	var client = new net.Socket();
-	var request = `{"operate":"register", "pid":"${pid}", "name":"${name}", "password":"${password}"}`;
-	
-	client.connect(9997,'101.132.106.166',function(){
-		client.write(request);
+	var msg = `{"instruction":"del_note", "userid":"${userid}", "passwd":"${passwd}", "noteid":${noteid}}`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
 	});
 
-
-	client.on('data',function(data){
-		console.log('from server'+ data);
+	client.on('error', function (error) {
+		client.destroy();
 	});
 
-	client.on('error',function(error){
-
-	  console.log('error:'+error);
-	  client.destroy();
-	});
-
-	client.on('close',function(){
-	  console.log('Connection closed');
+	client.on('close', function () {
 	});
 }
 
-
-// updateNoteReq(0,"dzjmodhdk","goo","dyhdqwdaewvsfervgs");
-function updateNoteReq(nid,title,classname,data){
+function selNote(userid, passwd, noteid) {
 	var client = new net.Socket();
-	var request = `{"operate":"updateNote", "nid":${nid}, "title":"${title}", "class":"${classname}", "data":"${data}"}`;
-	
-	client.connect(9997,'101.132.106.166',function(){
-		client.write(request);
+	var msg = `{"instruction":"sel_note", "userid":"${userid}", "passwd":"${passwd}", "noteid":${noteid}}`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
 	});
 
-
-	client.on('data',function(data){
-		console.log('from server'+ data);
+	client.on('error', function (error) {
+		client.destroy();
 	});
 
-	client.on('error',function(error){
-
-	  console.log('error:'+error);
-	  client.destroy();
-	});
-
-	client.on('close',function(){
-	  console.log('Connection closed');
+	client.on('close', function () {
 	});
 }
 
-module.exports={
+function upNote(userid, passwd, noteid, title, folderid, value) {
+	var client = new net.Socket();
+	var msg = `{"instruction":"up_note", "userid":"${userid}", "passwd":"${passwd}", "noteid":${noteid}, "title":"${title}", "folderid":${folderid}, "value":"${value}"}`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
+	});
+
+	client.on('error', function (error) {
+		client.destroy();
+	});
+
+	client.on('close', function () {
+	});
+}
+
+function addFolder(userid, passwd, folderid, foldername, parentid) {
+	var client = new net.Socket();
+	var msg = `{"instruction":"add_folder", "userid":"${userid}", "passwd":"${passwd}", "folderid":${folderid}, "foldername":"${foldername}", "parentid":${parentid} }`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
+	});
+
+	client.on('error', function (error) {
+		client.destroy();
+	});
+
+	client.on('close', function () {
+	});
+}
+
+function delFolder(userid, passwd, folderid) {
+	var client = new net.Socket();
+	var msg = `{"instruction":"del_folder", "userid":"${userid}", "passwd":"${passwd}", "folderid":${folderid}}`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
+	});
+
+	client.on('error', function (error) {
+		client.destroy();
+	});
+
+	client.on('close', function () {
+	});
+}
+
+function selFolder(userid, passwd, folderid) {
+	var client = new net.Socket();
+	var msg = `{"instruction":"sel_folder", "userid":"${userid}", "passwd":"${passwd}", "folderid":${folderid}}`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
+	});
+
+	client.on('error', function (error) {
+		client.destroy();
+	});
+
+	client.on('close', function () {
+	});
+}
+
+function upFolder(userid, passwd, folderid, foldername, parentid) {
+	var client = new net.Socket();
+	var msg = `{"instruction":"up_folder", "userid":"${userid}", "passwd":"${passwd}", "folderid":${folderid}, "foldername":"${foldername}", "parentid":${parentid} }`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
+	});
+
+	client.on('error', function (error) {
+		client.destroy();
+	});
+
+	client.on('close', function () {
+	});
+}
+
+function selNotes(userid, passwd) {
+	var client = new net.Socket();
+	var msg = `{"instruction":"sel_notes", "userid":"${userid}", "passwd":"${passwd}" }`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
+	});
+
+	client.on('error', function (error) {
+		client.destroy();
+	});
+
+	client.on('close', function () {
+	});
+}
+
+function selFolders(userid, passwd) {
+	var client = new net.Socket();
+	var msg = `{"instruction":"sel_folders", "userid":"${userid}", "passwd":"${passwd}" }`;
+	client.connect(4687, '101.132.106.166', () => {
+		client.write(msg);
+	})
+
+	client.on('data', function (data) {
+		fs.writeFile('temp.txt', data, function (err) {
+		})
+	});
+
+	client.on('error', function (error) {
+		client.destroy();
+	});
+
+	client.on('close', function () {
+	});
+}
+
+module.exports = {
+	reg,
 	loginReq,
 	addNoteReq,
 	registerReq,

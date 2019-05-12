@@ -33,8 +33,8 @@ let menuTemplate = [{
             editor.redo();
             editor.focus();
         }
-    }, { 
-        type: 'separator' 
+    }, {
+        type: 'separator'
     }, {
         label: 'Cut',
         accelerator: 'Ctrl+X',
@@ -62,8 +62,8 @@ let menuTemplate = [{
             editor.replaceSelection('');
             editor.focus();
         }
-    }, { 
-        type: 'separator' 
+    }, {
+        type: 'separator'
     }, {
         label: 'Bold',
         accelerator: 'Ctrl+B',
@@ -78,10 +78,10 @@ let menuTemplate = [{
             italicEditor();
             editor.focus();
         }
-    }, { 
-        type: 'separator' 
-    }, { 
-        label: 'selectAll', 
+    }, {
+        type: 'separator'
+    }, {
+        label: 'selectAll',
         accelerator: 'Ctrl+A',
         click: (item, focusedWindow) => {
             editor.execCommand('selectAll');
