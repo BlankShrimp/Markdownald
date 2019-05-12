@@ -70,6 +70,66 @@ body.display-nav #dirs {
     font: 20px !important;
 }
 
+/* ###add pane*/
+.addpane {
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.2), 0 6px 40px 0 rgba(0, 0, 0, 0.19);
+    right: calc(100% - 210px);
+    top:calc(100% - 340px);
+    background: #ffffff;
+    text-align: center;
+    user-select: none;
+}
+
+.add-butts {
+    margin-top: 20px;
+    width: 120px;
+    z-index: 1;
+    position: relative;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0.5em 1em;
+    outline: none;
+    border: none;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    transition: color 0.4s ease-in-out; 
+}
+
+.add-butts::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: crimson;
+    transform-origin: center;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.add-butts:hover {
+    cursor: pointer;
+    color: white;
+}
+
+.add-butts:hover::before {
+    transform: translate(-50%, -50%) scale(15);
+}
+
+#addnote {
+    margin-top: 90px;
+}
+
+#selectfolder{
+    margin-top:70px;
+    width: 150px;
+}
 /* #####account pane */
 
 .accountpane {
