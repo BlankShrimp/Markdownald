@@ -74,6 +74,7 @@ for (var i = 0; i < notes.length; i++) {
         + notes[i].title + '</span></div></li>')
 }
 
+//ipcrender样板
 $('.is-dir').addClass('collapse');
 $(document).on('click', '.is-file', function () {
     ipcRenderer.send('open', $(this).parent().attr('id'), $(this).parent().attr('id'))
