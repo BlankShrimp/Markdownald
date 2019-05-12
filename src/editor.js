@@ -7,6 +7,14 @@ const rendered = $('#main')[0];
 const dirs_butt = $('#list-btt')[0];
 const dirs_icon  =$('#listicon')[0];
 const account_butt = $('#account-btt')[0];
+const add_butt = $('#add-btt')[0];
+
+
+const addnote_butt = $('#addnote')[0];
+const addfolder_butt = $('#addfolder')[0];
+
+const cancel_addnote = $('#canceladdnote')[0];
+const cancel_addfolder = $('#canceladdfolder')[0];
 
 const reg_butt = $('#registry')[0];
 const signin_butt = $('#login')[0];
@@ -22,11 +30,13 @@ const opened_folder = 'M928 444H820V330.4c0-17.7-14.3-32-32-32H473L355.7 186.2c-
 
 //flags
 var saved = false
-var logined = true
+var logined = false
 var atRegPage = false
 var atLoginPage = false
 var atCustomPage = false
 
+var atAddnotePage = false
+var atAddfolderPage = false
 //create editor object
 var editor = CodeMirror.fromTextArea($input[0], {
     mode: "markdown",
@@ -158,6 +168,66 @@ function toggleNavigation() {
     }
 }
 dirs_butt.setAttribute('onClick', 'toggleNavigation();');
+
+
+function toggleAddchoosePane(){
+    if(atAddnotePage){
+        $('#addnotepane')[0].setAttribute('style', 'visibility:hidden');
+        atAddnotePage = false
+        $('#addchoosepane').removeClass('display-acc');
+        add_butt.removeAttribute('style');
+    }else if (atAddfolderPage) {
+        $('#addfolderpane')[0].setAttribute('style', 'visibility:hidden');
+        atAddfolderPage = false
+        $('#addchoosepane').removeClass('display-acc');
+        add_butt.removeAttribute('style');
+    }else{
+        if ($('#addchoosepane').hasClass('display-acc')) {
+                $('#addchoosepane')[0].setAttribute('style', 'visibility:hidden');
+                $('#addchoosepane').removeClass('display-acc');
+                add_butt.removeAttribute('style');
+            }else{
+                $('#addchoosepane').addClass('display-acc');
+                $('#addchoosepane')[0].setAttribute('style', 'visibility:visible');
+                add_butt.setAttribute('style', 'background: #f0f0f0');
+            }
+    }
+}
+add_butt.setAttribute('onClick', 'toggleAddchoosePane();');
+
+function addNoteButton() {
+    $('#addchoosepane')[0].setAttribute('style', 'visibility:hidden');
+    $('#addnotepane')[0].setAttribute('style', 'visibility:visible');
+    atAddnotePage = true
+}
+addnote_butt.setAttribute('onClick', 'addNoteButton();');
+
+function canceladdNoteButton() {
+    $('#addnotepane')[0].setAttribute('style', 'visibility:hidden');
+    $('#addchoosepane')[0].setAttribute('style', 'visibility:visible');
+    atAddnotePage = false
+}
+cancel_addnote.setAttribute('onClick', 'canceladdNoteButton();');
+
+
+function addFolderButton(){
+    $('#addchoosepane')[0].setAttribute('style', 'visibility:hidden');
+    $('#addfolderpane')[0].setAttribute('style', 'visibility:visible');
+    atAddfolderPage = true
+}
+addfolder_butt.setAttribute('onClick', 'addFolderButton();');
+
+function canceladdFolderButton() {
+    $('#addfolderpane')[0].setAttribute('style', 'visibility:hidden');
+    $('#addchoosepane')[0].setAttribute('style', 'visibility:visible');
+    atAddfolderPage = false
+}
+cancel_addfolder.setAttribute('onClick', 'canceladdFolderButton();');
+
+
+
+
+
 
 function toggleAccountPane() {
     if (logined) {
