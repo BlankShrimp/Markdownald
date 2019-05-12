@@ -71,6 +71,8 @@ function serialize(){
 // selectAllnotes();
 // viewsubFolder(3);
 // viewFolderContent(3);
+// viewrootFolder();
+
 
 // //read file (Timeout may require)
 // setTimeout(function(){
@@ -235,8 +237,24 @@ function selectAllnotes(){
     db.close();
 }
 
+// view all the Folder in the root index
+function viewrootFolder(){
+    var db = new sqlite3.Database(path.join('../../data/','markdownald.db'));
+    db.all(`select FolderId from Directories where ParentId = 0`,function(err,res){
+        var result= JSON.stringify(res);
+        fs.writeFile('temp.txt',result,function(err){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("finish")
+            }
+        });
+    });
+    db.close();
+}
+
 // view all the sub-folders of the current folder
-//    param:[FolderId]   
+//    param:[FolderId] 
 function viewsubFolder(param){
     var db = new sqlite3.Database(path.join('../../data/','markdownald.db'));
     db.get(`select FolderId,key,level from Directories where FolderId = ?`,param,function(err,res){
@@ -325,6 +343,7 @@ module.exports={
     selectNote,
     recentNotes,
     selectAllnotes,
+    viewrootFolder,
     viewsubFolder,
     viewFolderContent,
     viewSupportDoc,
