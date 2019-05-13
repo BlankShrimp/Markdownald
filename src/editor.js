@@ -8,6 +8,7 @@ const dirs_butt = $('#list-btt')[0];
 const dirs_icon  =$('#listicon')[0];
 const account_butt = $('#account-btt')[0];
 const add_butt = $('#add-btt')[0];
+const del_butt = $('#del-btt')[0];
 
 
 const addnote_butt = $('#addnote')[0];
@@ -37,6 +38,8 @@ var atCustomPage = false
 
 var atAddnotePage = false
 var atAddfolderPage = false
+
+var delButtonDisplayed = false
 //create editor object
 var editor = CodeMirror.fromTextArea($input[0], {
     mode: "markdown",
@@ -224,7 +227,18 @@ function canceladdFolderButton() {
 }
 cancel_addfolder.setAttribute('onClick', 'canceladdFolderButton();');
 
-
+function toggleDelButton() {
+    if (delButtonDisplayed) {
+        $('.delbutts').attr('style', 'visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;');
+        del_butt.removeAttribute('style')
+        delButtonDisplayed = false
+    } else {
+        $('.delbutts').attr('style', 'visibility:visible; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;');
+        del_butt.setAttribute('style', 'background: #f0f0f0');
+        delButtonDisplayed = true
+    }
+}
+del_butt.setAttribute('onClick', 'toggleDelButton();');
 
 
 

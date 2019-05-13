@@ -36,7 +36,8 @@ var selection = [{
 
 for (var i = 0; i < selection.length; i++) {
     $('#f' + selection[i].parentID).append('<li><div class="file is-dir"><span class="fname">'
-        + selection[i].folderName + '</span></div><ul id="f' + selection[i].folderID + '"></ul></li>');
+        + selection[i].folderName + '</span><span class="delbutts" id="df'+selection[i].folderID+
+        '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span></div><ul id="f' + selection[i].folderID + '"></ul></li>');
 }
 
 var notes = [{
@@ -71,7 +72,8 @@ var notes = [{
 
 for (var i = 0; i < notes.length; i++) {
     $('#f' + notes[i].folderID).append('<li id="n' + notes[i].noteID + '"><div class="file is-file"><span class="notename">'
-        + notes[i].title + '</span></div></li>')
+        + notes[i].title + '</span><span class="delbutts" id="dn'+selection[i].noteID+
+        '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span></div></li>')
 }
 
 //ipcrender样板
