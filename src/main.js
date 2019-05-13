@@ -6,6 +6,7 @@ const path = require('path')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+var currentNoteID = 0
 
 function createWindow() {
   // Create the browser window.
@@ -30,7 +31,7 @@ function createWindow() {
   })
 
   win.on('blur', () => {
-    if (win.getTitle().startsWith("* ")) {
+    if (win.getTitle().startsWith("* ") && currentNoteID != 0) {
       win.setTitle(win.getTitle().substr(2));
       win.webContents.send('saveNow')
     }
@@ -68,7 +69,8 @@ ipcMain.on('open', (event, ...args) => {
   win.webContents.send('content', args[1]);
 })
 
-ipcMain.on('change', () => {
+ipcMain.on('change', (event, args) => {
+  currentNoteID = parseInt(args)
   if (!win.getTitle().startsWith("* ")) win.setTitle("* " + win.getTitle())
 })
 

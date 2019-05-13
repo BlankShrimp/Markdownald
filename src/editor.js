@@ -40,6 +40,8 @@ var atAddnotePage = false
 var atAddfolderPage = false
 
 var delButtonDisplayed = false
+
+var currentNoteID = 0
 //create editor object
 var editor = CodeMirror.fromTextArea($input[0], {
     mode: "markdown",
@@ -122,7 +124,7 @@ editor.on("change", function (editor, change) {
     insertPosition = document.getElementById("main")
     insertPosition.innerHTML = html;
 
-    ipcRenderer.send('change')
+    ipcRenderer.send('change', currentNoteID)
     saved = false
     stat.setAttribute('fill', 'orange');
 })
@@ -154,10 +156,6 @@ ipcRenderer.on('content', (event, arg) => {
     editor.setValue(arg);
 })
 
-ipcRenderer.on('saveNow', () => {
-    saved = true
-    stat.setAttribute('fill', 'green');
-})
 
 function toggleNavigation() {
     if ($('body').hasClass('display-nav')) {
