@@ -12,14 +12,16 @@ $(document).ready(async () => {
             $('#selectparent').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
             $('#f' + folderJson[i].parentid).append('<li><div class="file is-dir"><span class="fname">'
                 + folderJson[i].foldername + '</span><span class="delbutts" id="df' + folderJson[i].folderid +
-                '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span></div><ul id="f' + folderJson[i].folderid + '"></ul></li>');
+                '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span><span class="editbutts" id="ef' + folderJson[i].folderid +
+                '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/edit-square.png) no-repeat;"></span></div><ul id="f' + folderJson[i].folderid + '"></ul></li>');
         }
 
         var notesJson = await Promise.resolve(db.all(`select * from Notes`))
         for (var i = 0; i < notesJson.length; i++) {
             $('#f' + notesJson[i].folderid).append('<li id="n' + notesJson[i].noteid + '"><div class="file is-file"><span class="notename">'
                 + notesJson[i].title + '</span><span class="delbutts" id="dn' + notesJson[i].noteid +
-                '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span></div></li>')
+                '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span><span class="editbutts" id="en' + notesJson[i].noteid +
+                '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/edit-square.png) no-repeat;"></span></div></li>')
         }
 
         $('li ul').hide();

@@ -236,11 +236,13 @@ cancel_addfolder.setAttribute('onClick', 'canceladdFolderButton();');
 
 function toggleDelButton() {
     if (delButtonDisplayed) {
-        $('.delbutts').attr('style', 'visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;');
+        $('.delbutts').attr('style', 'visibility:hidden;');
+        $('.editbutts').attr('style', 'visibility:hidden;');
         del_butt.removeAttribute('style')
         delButtonDisplayed = false
     } else {
-        $('.delbutts').attr('style', 'visibility:visible; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;');
+        $('.delbutts').attr('style', 'visibility:visible; margin-left: 5px; display: inline-block; vertical-align: middle; height:15px; width:15px; background: url(icons/delete.png) no-repeat;');
+        $('.editbutts').attr('style', 'visibility:visible; margin-left: 5px; display: inline-block; vertical-align: middle; height:15px; width:15px; background: url(icons/edit-square.png) no-repeat;');
         del_butt.setAttribute('style', 'background: #f0f0f0');
         delButtonDisplayed = true
     }
