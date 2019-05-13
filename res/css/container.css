@@ -70,14 +70,15 @@ body.display-nav #dirs {
     font: 20px !important;
 }
 
-/* ###add pane*/
+/* #####add pane*/
+
 .addpane {
     position: absolute;
     width: 200px;
     height: 300px;
     box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.2), 0 6px 40px 0 rgba(0, 0, 0, 0.19);
     right: calc(100% - 210px);
-    top:calc(100% - 340px);
+    top: calc(100% - 340px);
     background: #ffffff;
     text-align: center;
     user-select: none;
@@ -95,7 +96,7 @@ body.display-nav #dirs {
     border: none;
     background-color: #f0f0f0;
     overflow: hidden;
-    transition: color 0.4s ease-in-out; 
+    transition: color 0.4s ease-in-out;
 }
 
 .add-butts::before {
@@ -126,10 +127,12 @@ body.display-nav #dirs {
     margin-top: 90px;
 }
 
-#selectfolder{
-    margin-top:70px;
-    width: 150px;
+select {
+    margin-top: 40px;
+    width: 142.4px;
+    height: 35.2px;
 }
+
 /* #####account pane */
 
 .accountpane {
@@ -396,4 +399,84 @@ progress[value]::-webkit-progress-value {
 .inputpane input:focus~.left {
     transform-origin: top left;
     transform: scaleY(1);
+}
+
+/* reg pane input styles*/
+
+select {
+    position: relative;
+}
+
+select {
+    font-size: inherit;
+    font-family: inherit;
+    background-color: #f0f0f0;
+    padding: 0.35em 0.45em;
+    border: 0px solid crimson;
+    outline: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+select:focus {
+    border: 1px solid crimson;
+    outline: none;
+}
+
+select>* {
+    outline: none;
+}
+
+/* #####loading pane */
+
+#loadingacc {
+    left: calc(100% - 210px);
+    top: calc(100% - 340px);
+}
+
+.loadingpane {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6; 
+    box-shadow: none;
+    z-index: 2;
+}
+
+.loadingpane div {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 2em;
+}
+
+.loadingpane span {
+    width: 0.3em;
+    height: 1em;
+    background-color: crimson;
+}
+
+.loadingpane span:nth-of-type(1) {
+    animation: grow 1s -0.45s ease-in-out infinite;
+}
+
+.loadingpane span:nth-of-type(2) {
+    animation: grow 1s -0.3s ease-in-out infinite;
+}
+
+.loadingpane span:nth-of-type(3) {
+    animation: grow 1s -0.15s ease-in-out infinite;
+}
+
+.loadingpane span:nth-of-type(4) {
+    animation: grow 1s ease-in-out infinite;
+}
+
+@keyframes grow {
+    0%, 100% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(2);
+    }
 }

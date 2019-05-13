@@ -224,8 +224,14 @@ function selFolders(userid, passwd) {
 
 module.exports = {
 	reg,
-	loginReq,
-	addNoteReq,
-	registerReq,
-	updateNoteReq
+	addNote,
+	delNote,
+	selNote,
+	upNote,
+	addFolder,
+	delFolder,
+	selFolder,
+	upFolder,
+	selNotes,
+	selFolders
 }

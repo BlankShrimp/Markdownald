@@ -29,6 +29,7 @@
     </div>
   </div>
 
+  
 
   <div id="addchoosepane" class="addpane" style="visibility:hidden">
     <button id="addnote" class="add-butts">Add note</button>
@@ -36,7 +37,13 @@
   </div>
 
   <div id="addnotepane" class="addpane" style="visibility: hidden">
-    <div class="inputpane" style="margin-top: 70px">
+    <select id="selectfolder">
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option value="audi">Audi</option>
+    </select>
+    <div class="inputpane" style="margin-top: 20px">
       <input type="text" placeholder="Note title">
       <span class="bottom"></span>
       <span class="right"></span>
@@ -48,15 +55,23 @@
   </div>
 
   <div id="addfolderpane" class="addpane" style="visibility: hidden">
-    <select id="selectfolder"> 
-      <option value ="volvo">Volvo</option>
-      <option value ="saab">Saab</option>
+    <select id="selectparent">
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
       <option value="opel">Opel</option>
       <option value="audi">Audi</option>
     </select>
+    <div class="inputpane" style="margin-top: 20px">
+      <input type="text" placeholder="Folder name">
+      <span class="bottom"></span>
+      <span class="right"></span>
+      <span class="top"></span>
+      <span class="left"></span>
+    </div>
     <button id="confirmaddfolder" class="add-butts">Create</button>
     <button id="canceladdfolder" class="add-butts">Cancel</button>
   </div>
+
 
 
   <div id="welcomepane" class="accountpane" style="visibility:hidden">
@@ -178,6 +193,26 @@
     </div>
   </div>
 
+
+  
+  <div id="loadingadd" class="addpane loadingpane">
+    <div>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div id="loadingacc" class="addpane loadingpane">
+    <div>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
   <div id="statusbar">
     <div class="status-btt" id="add-btt">
       <svg t="1557323336123" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -185,8 +220,10 @@
         <defs>
           <style type="text/css"></style>
         </defs>
-        <path d="M474 152m8 0l60 0q8 0 8 8l0 704q0 8-8 8l-60 0q-8 0-8-8l0-704q0-8 8-8Z" p-id="8491" fill="#777777"></path>
-        <path d="M168 474m8 0l672 0q8 0 8 8l0 60q0 8-8 8l-672 0q-8 0-8-8l0-60q0-8 8-8Z" p-id="8492" fill="#777777"></path>
+        <path d="M474 152m8 0l60 0q8 0 8 8l0 704q0 8-8 8l-60 0q-8 0-8-8l0-704q0-8 8-8Z" p-id="8491" fill="#777777">
+        </path>
+        <path d="M168 474m8 0l672 0q8 0 8 8l0 60q0 8-8 8l-672 0q-8 0-8-8l0-60q0-8 8-8Z" p-id="8492" fill="#777777">
+        </path>
       </svg></div>
     <div class="status-btt" id="list-btt">
       <svg t="1557323336123" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
