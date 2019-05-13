@@ -158,6 +158,29 @@ function deleteFolder(param){
 }
 
 
+//delete user   param:[userid]
+function deleteUser(param){
+    var db = new sqlite3.Database(path.join('data/','markdownald.db'));
+    db.run(`delete from Persons where userid = ?`,param);
+    db.close();
+}
+
+
+// deleteAllnotes()
+// delete all notes
+function deleteAllnotes(){
+    var db = new sqlite3.Database(path.join('data/','markdownald.db'));
+    db.run(`delete from Notes`);
+}
+
+// deleteAll()
+//delete all notes and folder
+function deleteAll(){
+    var db = new sqlite3.Database(path.join('data/','markdownald.db'));
+    db.run(`delete from Notes`);
+    db.run(`delete from Directories`);
+}
+
 
 // updateNoteTitle(["mod",5]);
 // update
@@ -328,6 +351,15 @@ function viewSupportDoc(param){
     db.close();
 }
 
+
+function selectUser(param){
+    var db = new sqlite3.Database(path.join('data/','markdownald.db'));
+    db.get(`select * from Persons where userid = ?`,param,function(err,res){
+        var result = JSON.stringify(res);
+        fs.writeFile('temp.txt',result,function(err){});
+    });
+    db.close();
+}
 
 
 
