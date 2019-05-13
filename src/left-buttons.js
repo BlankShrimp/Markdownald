@@ -9,6 +9,7 @@ $(document).ready(async () => {
         var folderJson = await Promise.resolve(db.all(`select * from Directories`))
         for (var i = 0; i < folderJson.length; i++) {
             $('#selectfolder').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
+            $('#selectparent').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
             $('#f' + folderJson[i].parentid).append('<li><div class="file is-dir"><span class="fname">'
                 + folderJson[i].foldername + '</span><span class="delbutts" id="df' + folderJson[i].folderid +
                 '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span></div><ul id="f' + folderJson[i].folderid + '"></ul></li>');
@@ -82,11 +83,22 @@ $(document).ready(async () => {
             var notename = $('#addnotepane input').val()
             var temp = await Promise.resolve(db.get(`select Content from Support where Name = "MaxNote"`))
             var currentID = parseInt(temp.Content) + 1
-            await Promise.resolve(db.get(`update Support set Content="${currentID}"`))
+            await Promise.resolve(db.get(`update Support set Content="${currentID} where Name = "MaxNote"`))
             await Promise.resolve(
                 db.run(`insert into Notes (noteid, title, folderid, value, ModifyTime, ViewTime, upload) values(${currentID},"${notename}",${folderid},"",datetime('now','localtime'),datetime('now','localtime'), 0)`))
             currentNoteID = currentID
             ipcRenderer.send('opennew', notename, currentID)
+        });
+
+        $(document).on('click', '#confirmaddfolder', async function () {
+            var parentid = parseInt($('#selectparent').val())
+            var foldername = $('#addfolderpane input').val()
+            var temp = await Promise.resolve(db.get(`select Content from Support where Name = "MaxFolder"`))
+            var currentID = parseInt(temp.Content) + 1
+            await Promise.resolve(db.get(`update Support set Content="${currentID}" where Name = "MaxFolder"`))
+            await Promise.resolve(
+                db.run(`insert into Directories (folderid, foldername, parentid, trace) values(${currentID},"${foldername}",${parentid},"")`))
+            ipcRenderer.send('newfolder', editor.getValue(), currentNoteID)
         });
     } catch (err) {
     }

@@ -78,6 +78,14 @@ ipcMain.on('opennew', (event, ...args) => {
   })
 })
 
+ipcMain.on('newfolder', (event, ...args) => {
+  currentNoteID = parseInt(args[1])
+  win.loadFile('res/editor.html')
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send('opennewfolder', args[0], currentNoteID)
+  })
+})
+
 ipcMain.on('change', (event, args) => {
   currentNoteID = parseInt(args)
   if (!win.getTitle().startsWith("* ")) win.setTitle("* " + win.getTitle())
