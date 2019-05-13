@@ -387,7 +387,11 @@ module.exports={
     allFolders,
     viewsubFolder,
     viewfolderContent,
-    viewSupportDoc
+    viewSupportDoc,
+    deleteUser,
+    deleteAllnotes,
+    deleteAll,
+    selectUser
 }
 
 
