@@ -69,6 +69,15 @@ ipcMain.on('open', (event, ...args) => {
   win.webContents.send('content', args[1]);
 })
 
+ipcMain.on('opennew', (event, ...args) => {
+  win.setTitle(args[0] + " - MarkDownald")
+  currentNoteID = parseInt(args[1])
+  win.loadFile('res/editor.html')
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send('opennew', currentNoteID)
+  })
+})
+
 ipcMain.on('change', (event, args) => {
   currentNoteID = parseInt(args)
   if (!win.getTitle().startsWith("* ")) win.setTitle("* " + win.getTitle())

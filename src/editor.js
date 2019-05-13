@@ -156,6 +156,10 @@ ipcRenderer.on('content', (event, arg) => {
     editor.setValue(arg);
 })
 
+ipcRenderer.on('opennew', (event, arg) => {
+    currentNoteID = parseInt(arg)
+})
+
 
 function toggleNavigation() {
     if ($('body').hasClass('display-nav')) {
