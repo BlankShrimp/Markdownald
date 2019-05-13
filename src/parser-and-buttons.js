@@ -1,5 +1,5 @@
 const fs = require('fs');
-const client = require('../src/client/client')
+const client = require('./client/client')
 const sqlite = require('sqlite')
 
 const dbPromise = sqlite.open('data/markdownald.db', { Promise });
