@@ -2,7 +2,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const pkg = require('../package.json')
 const path = require('path')
-
+const sqlite = require('sqlite')
+const dbPromise = sqlite.open('data/markdownald.db', { Promise });
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
@@ -42,6 +43,43 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
+app.on('ready',async() =>{
+  try{
+    const db = await dbPromise;
+    await Promise.resolve(db.run(`
+            create table if not exists Support(
+                Name varchar(255) PRIMARY KEY,
+                Content varchar(255)
+            );`))
+    await Promise.resolve(db.run(`
+            create table if not exists Persons (
+                userid varchar(20) PRIMARY KEY,
+                nickname varchar(20) NOT NULL,
+                passwd varchar(20) NOT NULL
+            );`))
+
+    await Promise.resolve(db.run(`
+            create table if not exists Directories (
+                folderid int(8) PRIMARY KEY,
+                foldername varchar(255) NOT NULL,
+                parentid int(8) NOT NULL,
+                trace varchar(20) NOT NULL
+            );`))
+    await Promise.resolve(db.run(`
+            create table if not exists Notes(
+                noteid int(8) PRIMARY KEY, 
+                title varchar(255) NOT NULL,
+                folderid int(8),
+                value mediumtext,
+                ModifyTime DATETIME,
+                ViewTime DATETIME,
+                upload boolean DEFAULT 0
+            );`))
+    await Promise.resolve(db.run(`insert OR ignore into Support values("MaxNote",0)`))
+    await Promise.resolve(db.run(`insert OR ignore into Support values("MaxFolder",0)`))
+  }catch(err){
+  }
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
