@@ -1,5 +1,5 @@
 const fs = require('fs');
-const client = require('./client/client')
+const client = require('../src/client')
 const sqlite = require('sqlite')
 
 const dbPromise = sqlite.open('data/markdownald.db', { Promise });
@@ -85,7 +85,7 @@ $(document).ready(async () => {
             var notename = $('#addnotepane input').val()
             var temp = await Promise.resolve(db.get(`select Content from Support where Name = "MaxNote"`))
             var currentID = parseInt(temp.Content) + 1
-            await Promise.resolve(db.get(`update Support set Content="${currentID} where Name = "MaxNote"`))
+            await Promise.resolve(db.get(`update Support set Content="${currentID}" where Name = "MaxNote"`))
             await Promise.resolve(
                 db.run(`insert into Notes (noteid, title, folderid, value, ModifyTime, ViewTime, upload) values(${currentID},"${notename}",${folderid},"",datetime('now','localtime'),datetime('now','localtime'), 0)`))
             currentNoteID = currentID
@@ -102,6 +102,14 @@ $(document).ready(async () => {
                 db.run(`insert into Directories (folderid, foldername, parentid, trace) values(${currentID},"${foldername}",${parentid},"")`))
             ipcRenderer.send('newfolder', editor.getValue(), currentNoteID)
         });
+
+        $('#signup').click((event) => {
+            alert("1")
+            if (this == event.target) {
+                var account = $(this).parent().children('input [placeholder="ID"]')[0].val();
+                alert(account)
+            }
+        })
     } catch (err) {
     }
 })
