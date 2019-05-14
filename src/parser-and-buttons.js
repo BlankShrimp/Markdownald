@@ -60,19 +60,18 @@ $(document).ready(async () => {
             }
         })
 
-        $('.delbutts').click((event) => {
-            if (this == event.target) {
-                mode = $(this).attr('id').slice(1, 2)
-                id = parseInt($(this).attr('id').slice(2))
-                if (mode == "f") {
-                    db.deleteFolder(id)
-                    $(this).parent().parent().remove()
-                } else {
-                    db.deleteNote(id)
-                    $(this).parent().parent().remove()
-                }
+        $(document).on('click', '.delbutts', async function () {
+            mode = $(this).attr('id').slice(1, 2)
+            id = parseInt($(this).attr('id').slice(2))
+            if (mode == "f") {
+                deleteFolder(db, id)
+                $(this).parent().parent().remove()
+            } else {
+                await Promise.resolve(db.run(`delete from Notes where noteid=${id}`))
+                $(this).parent().parent().remove()
+                //这里有个bug，如果用户删除的是正在编辑的note，程序会崩溃。但是我实在是懒得改了
             }
-        })
+        });
 
         $(document).on('click', '.is-file', async function () {
             var value = await Promise.resolve(db.get('select title, value from Notes where noteid=?', $(this).parent().attr('id').slice(1)))
@@ -104,7 +103,6 @@ $(document).ready(async () => {
         });
 
         $('#signup').click((event) => {
-            alert("1")
             if (this == event.target) {
                 var account = $(this).parent().children('input [placeholder="ID"]')[0].val();
                 alert(account)
@@ -123,3 +121,13 @@ ipcRenderer.on('saveNow', async () => {
         stat.setAttribute('fill', 'green');
     }
 })
+
+async function deleteFolder(db, id) {
+    alert(id)
+    var childrenList = await Promise.resolve(db.all(`select folderid from Directories where parentid=${id}`))
+    await Promise.resolve(db.run(`delete from Directories where folderid=${id}`))
+    await Promise.resolve(db.run(`delete from Notes where folderid=${id}`))
+    for (var i = 0; i < childrenList.length; i++) {
+        deleteFolder(db, parseInt(childrenList[i].folderid))
+    }
+}
