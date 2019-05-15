@@ -83,6 +83,9 @@ $(document).ready(async () => {
                 $('#editnotepane')[0].setAttribute("style","visibility:visible; top: calc(50% - 150px); left: 20px;")
                 // 这里本来要做默认选中当前文件夹的，但是怎么都获取不到父元素的id，很怪
                 // $('#editnotepane select option[value="4"]')[0].setAttribute('selected', 'selected');
+            } else {
+                currentEditFolder = parseInt($(this).attr('id').slice(2))
+                $('#editnotepane')[0].setAttribute("style","visibility:visible; top: calc(50% - 150px); left: 20px;")
             }
         });
 
@@ -92,8 +95,12 @@ $(document).ready(async () => {
                 var notename = $('#editnotepane input').val()
                 db.run(`update Notes set folderid=${folderid}, title="${notename}" where noteid=${currentEditNote}`)
                 currentEditNote = 0
+                //这里没有刷新
             } else {
-
+                var folderid = parseInt($('#editnotepane select').val())
+                var foldername = $('#editnotepane input').val()
+                db.run(`update Folders set parentid=${folderid}, foldername="${foldername}" where folderid=${currentEditFolder}`)
+                currentEditFolder = 0
             }
             $('#editnotepane input').val("")
             $('#editnotepane')[0].setAttribute("style","visibility:hidden;")
