@@ -9,6 +9,7 @@ const dirs_icon  =$('#listicon')[0];
 const account_butt = $('#account-btt')[0];
 const add_butt = $('#add-btt')[0];
 const del_butt = $('#del-btt')[0];
+const sync_butt = $('#sync-btt')[0];
 
 
 const addnote_butt = $('#addnote')[0];
@@ -45,6 +46,8 @@ var delButtonDisplayed = false
 var currentNoteID = 0
 var currentEditNote = 0
 var currentEditFolder = 0
+var account = "zhende "
+var nickname
 //create editor object
 var editor = CodeMirror.fromTextArea($input[0], {
     mode: "markdown",
@@ -182,7 +185,6 @@ function toggleNavigation() {
 }
 dirs_butt.setAttribute('onClick', 'toggleNavigation();');
 
-
 function toggleAddchoosePane(){
     if(atAddnotePage){
         $('#addnotepane')[0].setAttribute('style', 'visibility:hidden');
@@ -207,6 +209,11 @@ function toggleAddchoosePane(){
     }
 }
 add_butt.setAttribute('onClick', 'toggleAddchoosePane();');
+
+function sync(){
+    ipcRenderer.send('savenow')
+}
+sync_butt.setAttribute('onClick', 'sync();');
 
 function addNoteButton() {
     $('#addchoosepane')[0].setAttribute('style', 'visibility:hidden');

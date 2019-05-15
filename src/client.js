@@ -1,25 +1,21 @@
 var net = require('net');
+const {PromiseSocket} = require('promise-socket');
 const { ipcRenderer } = require('electron')
 var fs = require('fs');
 
-function reg(userid, passwd, nickname) {
+async function reg(userid, passwd, nickname) {
 	var client = new net.Socket();
 	var msg = `{"instruction":"reg", "userid":"${userid}", "passwd":"${passwd}", "nickname":"${nickname}"}`;
-	client.connect(4687, '101.132.106.166', () => {
+	await client.connect(46877, '101.132.106.166')
+	var reply = new Promise((resolve, reject) => {
 		client.write(msg);
-	})
-
-	client.on('data', function (data) {
-		fs.writeFile('temp.txt', data, function (err) {
+		client.on('data', (data) => {
+			resolve(data)
 		})
-	});
-
-	client.on('error', function (error) {
-		client.destroy();
-	});
-
-	client.on('close', function () {
-	});
+	})
+	reply.then((data) => {
+		alert(data)
+	})
 }
 
 function addNote(userid, passwd, noteid, title, folderid, value) {

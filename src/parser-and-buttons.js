@@ -1,12 +1,21 @@
 const fs = require('fs');
-const client = require('../src/client')
-const sqlite = require('sqlite')
-
+const sqlite = require('sqlite');
 const dbPromise = sqlite.open('data/markdownald.db', { Promise });
+const net = require('net');
 var db
 $(document).ready(async () => {
     try {
         db = await dbPromise;
+        var acc = await Promise.resolve(db.get(`select * from Persons`))
+        if (acc) {
+            logined = true
+            account = acc.userid
+            nickname = acc.nickname
+            $('#accountstatpane h1').html(account)
+        } else {
+            stat.setAttribute('fill', 'grey');
+        }
+
         var folderJson = await Promise.resolve(db.all(`select * from Directories`))
         for (var i = 0; i < folderJson.length; i++) {
             $('#selectfolder').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
@@ -81,12 +90,12 @@ $(document).ready(async () => {
                 currentEditNote = parseInt($(this).attr('id').slice(2))
                 // var folderid = $(this).parent().parent().attr('id')
                 // alert(folderid)
-                $('#editnotepane')[0].setAttribute("style","visibility:visible; top: calc(50% - 150px); left: 20px;")
+                $('#editnotepane')[0].setAttribute("style", "visibility:visible; top: calc(50% - 150px); left: 20px;")
                 // 这里本来要做默认选中当前文件夹的，但是怎么都获取不到父元素的id，很怪
                 // $('#editnotepane select option[value="4"]')[0].setAttribute('selected', 'selected');
             } else {
                 currentEditFolder = parseInt($(this).attr('id').slice(2))
-                $('#editnotepane')[0].setAttribute("style","visibility:visible; top: calc(50% - 150px); left: 20px;")
+                $('#editnotepane')[0].setAttribute("style", "visibility:visible; top: calc(50% - 150px); left: 20px;")
             }
         });
 
@@ -104,7 +113,7 @@ $(document).ready(async () => {
                 currentEditFolder = 0
             }
             $('#editnotepane input').val("")
-            $('#editnotepane')[0].setAttribute("style","visibility:hidden;")
+            $('#editnotepane')[0].setAttribute("style", "visibility:hidden;")
         });
 
         $(document).on('click', '.is-file', async function () {
@@ -137,12 +146,72 @@ $(document).ready(async () => {
             ipcRenderer.send('newfolder', editor.getValue(), currentNoteID)
         });
 
-        $('#signup').click((event) => {
-            if (this == event.target) {
-                var account = $(this).parent().children('input [placeholder="ID"]')[0].val();
-                alert(account)
-            }
-        })
+        $(document).on('click', '#signup', async function () {
+            var userid = $('#regpane input[placeholder="ID"]').val()
+            var nickname = $('#regpane input[placeholder="Nickname"]').val()
+            var passwd = $('#regpane input[placeholder="Password"]').val()
+            db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
+            $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+            $('#accountstatpane h1').html(nickname)
+            setTimeout(() => {
+                logined = true
+                $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                $('#regpane')[0].setAttribute('style', 'visibility:hidden');
+                atRegPage = false
+                $('#accountstatpane').addClass('display-acc');
+                $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
+                stat.setAttribute('fill', 'green');
+            }, 1500)
+        });
+
+        $(document).on('click', '#confirmcus', async function () {
+            var userid = $('#customizepane input[placeholder="ID"]').val()
+            var nickname = userid
+            var passwd = $('#customizepane input[placeholder="Password"]').val()
+            db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
+            $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+            $('#accountstatpane h1').html(nickname)
+            setTimeout(() => {
+                logined = true
+                $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                $('#customizepane')[0].setAttribute('style', 'visibility:hidden');
+                atCustomePage = false
+                $('#accountstatpane').addClass('display-acc');
+                $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
+                stat.setAttribute('fill', 'green');
+            }, 1500)
+        });
+
+        $(document).on('click', '#signup', async function () {
+            var userid = $('#regpane input[placeholder="ID"]').val()
+            var nickname = $('#regpane input[placeholder="Nickname"]').val()
+            var passwd = $('#regpane input[placeholder="Password"]').val()
+            db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
+            $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+            $('#accountstatpane h1').html(nickname)
+            setTimeout(() => {
+                logined = true
+                $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                $('#regpane')[0].setAttribute('style', 'visibility:hidden');
+                atRegPage = false
+                $('#accountstatpane').addClass('display-acc');
+                $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
+                stat.setAttribute('fill', 'green');
+            }, 1500)
+        });
+
+        $(document).on('click', '#logout', async function () {
+            db.run(`delete from Persons`)
+            $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+            setTimeout(() => {
+                logined = false
+                $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                $('#welcomepane').addClass('display-acc');
+                $('#welcomepane')[0].setAttribute('style', 'visibility:visible');
+                $('#accountstatpane')[0].setAttribute('style', 'visibility:hidden');
+                stat.setAttribute('fill', 'grey');
+            }, 1500)
+        });
     } catch (err) {
     }
 })

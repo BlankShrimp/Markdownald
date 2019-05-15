@@ -107,6 +107,13 @@ ipcMain.on('open', (event, ...args) => {
   win.webContents.send('content', args[1]);
 })
 
+ipcMain.on('savenow', (event, ...args) => {
+  if (win.getTitle().startsWith("* ") && currentNoteID != 0) {
+    win.setTitle(win.getTitle().substr(2));
+    win.webContents.send('saveNow')
+  }
+})
+
 ipcMain.on('opennew', (event, ...args) => {
   win.setTitle(args[0] + " - MarkDownald")
   currentNoteID = parseInt(args[1])
