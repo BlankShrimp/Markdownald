@@ -99,7 +99,7 @@ $(document).ready(async () => {
             } else {
                 var folderid = parseInt($('#editnotepane select').val())
                 var foldername = $('#editnotepane input').val()
-                db.run(`update Folders set parentid=${folderid}, foldername="${foldername}" where folderid=${currentEditFolder}`)
+                db.run(`update Directories set parentid=${folderid}, foldername="${foldername}" where folderid=${currentEditFolder};`)
                 currentEditFolder = 0
             }
             $('#editnotepane input').val("")
