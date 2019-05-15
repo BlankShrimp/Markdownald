@@ -45,7 +45,6 @@ var delButtonDisplayed = false
 
 var currentNoteID = 0
 var currentEditNote = 0
-var currentEditFolder = 0
 var account = "zhende "
 var nickname
 //create editor object
@@ -132,7 +131,11 @@ editor.on("change", function (editor, change) {
 
     ipcRenderer.send('change', currentNoteID)
     saved = false
-    stat.setAttribute('fill', 'orange');
+    if (logined) {
+        stat.setAttribute('fill', 'orange');
+        account_butt.setAttribute('title', 'Logined - Not saved.')
+    }
+    else account_butt.setAttribute('title', 'Offline - Not saved.')
 })
 
 //set simultaneous scroll

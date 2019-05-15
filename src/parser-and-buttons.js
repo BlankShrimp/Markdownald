@@ -14,6 +14,10 @@ $(document).ready(async () => {
             $('#accountstatpane h1').html(account)
         } else {
             stat.setAttribute('fill', 'grey');
+            if (saved) account_butt.setAttribute('title', 'Offline - Saved.')
+            else {
+                account_butt.setAttribute('title', 'Offline - Not saved.')
+            }
         }
 
         var folderJson = await Promise.resolve(db.all(`select * from Directories`))
@@ -22,8 +26,8 @@ $(document).ready(async () => {
             $('#selectparent').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
             $('#editnotepane select').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
             $('#f' + folderJson[i].parentid).append('<li><div class="file is-dir"><span class="fname">'
-                + folderJson[i].foldername + '</span><span class="delbutts" id="df' + folderJson[i].folderid +
-                '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span><span class="editbutts" id="ef' + folderJson[i].folderid +
+                + folderJson[i].foldername + '</span><span title="Delete" class="delbutts" id="df' + folderJson[i].folderid +
+                '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span><span title="Edit" class="editbutts" id="ef' + folderJson[i].folderid +
                 '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/edit-square.png) no-repeat;"></span></div><ul id="f' + folderJson[i].folderid + '"></ul></li>');
         }
 
@@ -161,6 +165,11 @@ $(document).ready(async () => {
                 $('#accountstatpane').addClass('display-acc');
                 $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
                 stat.setAttribute('fill', 'green');
+                if (saved) account_butt.setAttribute('title', 'Logined - Saved.')
+                else {
+                    stat.setAttribute('fill', 'orange');
+                    account_butt.setAttribute('title', 'Logined - Not saved.')
+                }
             }, 1500)
         });
 
@@ -179,6 +188,11 @@ $(document).ready(async () => {
                 $('#accountstatpane').addClass('display-acc');
                 $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
                 stat.setAttribute('fill', 'green');
+                if (saved) account_butt.setAttribute('title', 'Logined - Saved.')
+                else {
+                    stat.setAttribute('fill', 'orange');
+                    account_butt.setAttribute('title', 'Logined - Not saved.')
+                }
             }, 1500)
         });
 
@@ -197,6 +211,11 @@ $(document).ready(async () => {
                 $('#accountstatpane').addClass('display-acc');
                 $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
                 stat.setAttribute('fill', 'green');
+                if (saved) account_butt.setAttribute('title', 'Logined - Saved.')
+                else {
+                    stat.setAttribute('fill', 'orange');
+                    account_butt.setAttribute('title', 'Logined - Not saved.')
+                }
             }, 1500)
         });
 
@@ -210,6 +229,10 @@ $(document).ready(async () => {
                 $('#welcomepane')[0].setAttribute('style', 'visibility:visible');
                 $('#accountstatpane')[0].setAttribute('style', 'visibility:hidden');
                 stat.setAttribute('fill', 'grey');
+                if (saved) account_butt.setAttribute('title', 'Offline - Saved.')
+                else {
+                    account_butt.setAttribute('title', 'Offline - Not saved.')
+                }
             }, 1500)
         });
     } catch (err) {
@@ -222,7 +245,10 @@ ipcRenderer.on('saveNow', async () => {
         const db = await dbPromise;
         await db.run(`update Notes set value= ? ,ModifyTime = datetime('now','localtime') where noteid = ?`, editor.getValue(), currentNoteID);
         saved = true
-        stat.setAttribute('fill', 'green');
+        if (logined) {
+            stat.setAttribute('fill', 'green');
+            account_butt.setAttribute('title', 'Logined - Saved.')
+        } else account_butt.setAttribute('title', 'Offline - Saved.')
     }
 })
 
