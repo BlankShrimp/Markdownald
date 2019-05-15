@@ -43,8 +43,8 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
-app.on('ready',async() =>{
-  try{
+app.on('ready', async () => {
+  try {
     const db = await dbPromise;
     await Promise.resolve(db.run(`
             create table if not exists Support(
@@ -77,7 +77,7 @@ app.on('ready',async() =>{
             );`))
     await Promise.resolve(db.run(`insert OR ignore into Support values("MaxNote",0)`))
     await Promise.resolve(db.run(`insert OR ignore into Support values("MaxFolder",0)`))
-  }catch(err){
+  } catch (err) {
   }
 })
 
@@ -114,6 +114,11 @@ ipcMain.on('opennew', (event, ...args) => {
   win.webContents.on('did-finish-load', () => {
     win.webContents.send('opennew', currentNoteID)
   })
+})
+
+ipcMain.on('openMDT', (event, ...args) => {
+  currentNoteID = 0
+  win.webContents.send('openMDT');
 })
 
 ipcMain.on('newfolder', (event, ...args) => {

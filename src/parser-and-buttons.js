@@ -3,9 +3,10 @@ const client = require('../src/client')
 const sqlite = require('sqlite')
 
 const dbPromise = sqlite.open('data/markdownald.db', { Promise });
+var db
 $(document).ready(async () => {
     try {
-        const db = await dbPromise;
+        db = await dbPromise;
         var folderJson = await Promise.resolve(db.all(`select * from Directories`))
         for (var i = 0; i < folderJson.length; i++) {
             $('#selectfolder').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
@@ -154,6 +155,11 @@ ipcRenderer.on('saveNow', async () => {
         saved = true
         stat.setAttribute('fill', 'green');
     }
+})
+
+ipcRenderer.on('openMDT', async () => {
+    var value = await Promise.resolve(db.get('select Content from Support where Name="MarkdownTutorial"'))
+    ipcRenderer.send('open', "Markdown Tutorial", value.Content)
 })
 
 async function deleteFolder(db, id) {

@@ -91,7 +91,10 @@ let menuTemplate = [{
 }, {
     role: 'Help',
     submenu: [{
-        label: 'Markdown Tutorial'
+        label: 'Markdown Tutorial',
+        click: () => {
+            ipcRenderer.send('openMDT')
+        }
     }, {
         label: 'Server Build Guide'
     }, {
