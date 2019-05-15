@@ -5,14 +5,6 @@ var editor = $('.CodeMirror')[0].CodeMirror;
 let menuTemplate = [{
     label: 'File',
     submenu: [{
-        label: 'New Note',
-        accelerator: 'Ctrl+N',
-        click: (item, focusedWindow) => {
-            ipcRenderer.send('open', 'Untitled Note', '')
-        }
-    }, {
-        type: 'separator'
-    }, {
         label: 'exit',
         accelerator: 'Alt+F4',
         role: 'quit'

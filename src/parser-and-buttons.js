@@ -10,6 +10,7 @@ $(document).ready(async () => {
         for (var i = 0; i < folderJson.length; i++) {
             $('#selectfolder').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
             $('#selectparent').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
+            $('#editnotepane select').append(`<option value="${folderJson[i].folderid}">${folderJson[i].foldername}</option>`)
             $('#f' + folderJson[i].parentid).append('<li><div class="file is-dir"><span class="fname">'
                 + folderJson[i].foldername + '</span><span class="delbutts" id="df' + folderJson[i].folderid +
                 '" style="visibility:hidden; margin-left: 5px; display: inline-block; height:15px; width:15px; background: url(icons/delete.png) no-repeat;"></span><span class="editbutts" id="ef' + folderJson[i].folderid +
@@ -61,8 +62,8 @@ $(document).ready(async () => {
         })
 
         $(document).on('click', '.delbutts', async function () {
-            mode = $(this).attr('id').slice(1, 2)
-            id = parseInt($(this).attr('id').slice(2))
+            var mode = $(this).attr('id').slice(1, 2)
+            var id = parseInt($(this).attr('id').slice(2))
             if (mode == "f") {
                 deleteFolder(db, id)
                 $(this).parent().parent().remove()
@@ -73,10 +74,36 @@ $(document).ready(async () => {
             }
         });
 
+        $(document).on('click', '.editbutts', async function () {
+            var mode = $(this).attr('id').slice(1, 2)
+            if (mode == "n") {
+                currentEditNote = parseInt($(this).attr('id').slice(2))
+                // var folderid = $(this).parent().parent().attr('id')
+                // alert(folderid)
+                $('#editnotepane')[0].setAttribute("style","visibility:visible; top: calc(50% - 150px); left: 20px;")
+                // 这里本来要做默认选中当前文件夹的，但是怎么都获取不到父元素的id，很怪
+                // $('#editnotepane select option[value="4"]')[0].setAttribute('selected', 'selected');
+            }
+        });
+
+        $(document).on('click', '#confirmeditnote', async function () {
+            if (currentEditNote != 0) {
+                var folderid = parseInt($('#editnotepane select').val())
+                var notename = $('#editnotepane input').val()
+                db.run(`update Notes set folderid=${folderid}, title="${notename}" where noteid=${currentEditNote}`)
+                currentEditNote = 0
+            } else {
+
+            }
+            $('#editnotepane input').val("")
+            $('#editnotepane')[0].setAttribute("style","visibility:hidden;")
+        });
+
         $(document).on('click', '.is-file', async function () {
             var value = await Promise.resolve(db.get('select title, value from Notes where noteid=?', $(this).parent().attr('id').slice(1)))
             currentNoteID = parseInt($(this).parent().attr('id').slice(1))
             ipcRenderer.send('open', value.title, value.value)
+            //这里有一个bug，已经修改的note不会被保存
         });
 
         $(document).on('click', '#confirmaddnote', async function () {

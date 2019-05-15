@@ -15,6 +15,7 @@ const addnote_butt = $('#addnote')[0];
 const addfolder_butt = $('#addfolder')[0];
 
 const cancel_addnote = $('#canceladdnote')[0];
+const cancel_editnote = $('#canceleditnote')[0];
 const cancel_addfolder = $('#canceladdfolder')[0];
 
 const reg_butt = $('#registry')[0];
@@ -42,6 +43,8 @@ var atAddfolderPage = false
 var delButtonDisplayed = false
 
 var currentNoteID = 0
+var currentEditNote = 0
+var currentEditFolder = 0
 //create editor object
 var editor = CodeMirror.fromTextArea($input[0], {
     mode: "markdown",
@@ -218,6 +221,12 @@ function canceladdNoteButton() {
     atAddnotePage = false
 }
 cancel_addnote.setAttribute('onClick', 'canceladdNoteButton();');
+
+function cancelEditNoteButton() {
+    $('#editnotepane')[0].setAttribute('style', 'visibility:hidden; top: calc(50% - 150px); left: 20px;');
+    currentEditNote = 0
+}
+cancel_editnote.setAttribute('onClick', 'cancelEditNoteButton();');
 
 
 function addFolderButton(){
