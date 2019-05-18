@@ -119,7 +119,10 @@ var editor = CodeMirror.fromTextArea($input[0], {
 var converter = new showdown.Converter({
     tables: true,
     strikethrough: true,
-    tasklists: true
+    tasklists: true,
+    underline: true,
+    emoji: true,
+    simpleLineBreaks: true
 });
 
 //call render when sth changed in editor

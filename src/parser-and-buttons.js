@@ -196,18 +196,18 @@ $(document).ready(async () => {
             }, 1500)
         });
 
-        $(document).on('click', '#signup', async function () {
-            var userid = $('#regpane input[placeholder="ID"]').val()
-            var nickname = $('#regpane input[placeholder="Nickname"]').val()
-            var passwd = $('#regpane input[placeholder="Password"]').val()
+        $(document).on('click', '#confirmlogin', async function () {
+            var userid = $('#loginpane input[placeholder="ID"]').val()
+            var nickname = userid
+            var passwd = $('#loginpane input[placeholder="Password"]').val()
             db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
             $('#loadingacc')[0].setAttribute('style','visibility:visible;')
             $('#accountstatpane h1').html(nickname)
             setTimeout(() => {
                 logined = true
                 $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
-                $('#regpane')[0].setAttribute('style', 'visibility:hidden');
-                atRegPage = false
+                $('#loginpane')[0].setAttribute('style', 'visibility:hidden');
+                atLoginPage = false
                 $('#accountstatpane').addClass('display-acc');
                 $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
                 stat.setAttribute('fill', 'green');
@@ -258,7 +258,6 @@ ipcRenderer.on('openMDT', async () => {
 })
 
 async function deleteFolder(db, id) {
-    alert(id)
     var childrenList = await Promise.resolve(db.all(`select folderid from Directories where parentid=${id}`))
     await Promise.resolve(db.run(`delete from Directories where folderid=${id}`))
     await Promise.resolve(db.run(`delete from Notes where folderid=${id}`))
