@@ -154,23 +154,38 @@ $(document).ready(async () => {
             var userid = $('#regpane input[placeholder="ID"]').val()
             var nickname = $('#regpane input[placeholder="Nickname"]').val()
             var passwd = $('#regpane input[placeholder="Password"]').val()
-            db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
-            $('#loadingacc')[0].setAttribute('style','visibility:visible;')
-            $('#accountstatpane h1').html(nickname)
-            setTimeout(() => {
-                logined = true
-                $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
-                $('#regpane')[0].setAttribute('style', 'visibility:hidden');
-                atRegPage = false
-                $('#accountstatpane').addClass('display-acc');
-                $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
-                stat.setAttribute('fill', 'green');
-                if (saved) account_butt.setAttribute('title', 'Logined - Saved.')
-                else {
-                    stat.setAttribute('fill', 'orange');
-                    account_butt.setAttribute('title', 'Logined - Not saved.')
+            var conpasswd = $('#regpane input[placeholder="Confirm passwd"]').val()
+            if (userid == "") {
+                $('#regpane input[placeholder="ID"]').addClass('wrongpassword');
+                setTimeout(() => {
+                    $('#regpane input[placeholder="ID"]').removeClass('wrongpassword');
+                }, 500)
+            } else {
+                if (passwd == conpasswd) {
+                    db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
+                    $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+                    $('#accountstatpane h1').html(nickname)
+                    setTimeout(() => {
+                        logined = true
+                        $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                        $('#regpane')[0].setAttribute('style', 'visibility:hidden');
+                        atRegPage = false
+                        $('#accountstatpane').addClass('display-acc');
+                        $('#accountstatpane')[0].setAttribute('style', 'visibility:visible');
+                        stat.setAttribute('fill', 'green');
+                        if (saved) account_butt.setAttribute('title', 'Logined - Saved.')
+                        else {
+                            stat.setAttribute('fill', 'orange');
+                            account_butt.setAttribute('title', 'Logined - Not saved.')
+                        }
+                    }, 1500)
+                } else {
+                    $('#regpane input[placeholder="Confirm passwd"]').addClass('wrongpassword');
+                    setTimeout(() => {
+                        $('#regpane input[placeholder="Confirm passwd"]').removeClass('wrongpassword');
+                    }, 500)
                 }
-            }, 1500)
+            }
         });
 
         $(document).on('click', '#confirmcus', async function () {
