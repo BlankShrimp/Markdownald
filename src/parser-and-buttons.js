@@ -160,14 +160,19 @@ $(document).ready(async () => {
                 setTimeout(() => {
                     $('#regpane input[placeholder="ID"]').removeClass('wrongpassword');
                 }, 500)
+            } else if (passwd == "") {
+                $('#regpane input[placeholder="passwd"]').addClass('wrongpassword');
+                setTimeout(() => {
+                    $('#regpane input[placeholder="passwd"]').removeClass('wrongpassword');
+                }, 500)
             } else {
                 if (passwd == conpasswd) {
                     db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
-                    $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+                    $('#loadingacc')[0].setAttribute('style', 'visibility:visible;')
                     $('#accountstatpane h1').html(nickname)
                     setTimeout(() => {
                         logined = true
-                        $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                        $('#loadingacc')[0].setAttribute('style', 'visibility:hidden;')
                         $('#regpane')[0].setAttribute('style', 'visibility:hidden');
                         atRegPage = false
                         $('#accountstatpane').addClass('display-acc');
@@ -193,11 +198,11 @@ $(document).ready(async () => {
             var nickname = userid
             var passwd = $('#customizepane input[placeholder="Password"]').val()
             db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
-            $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+            $('#loadingacc')[0].setAttribute('style', 'visibility:visible;')
             $('#accountstatpane h1').html(nickname)
             setTimeout(() => {
                 logined = true
-                $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                $('#loadingacc')[0].setAttribute('style', 'visibility:hidden;')
                 $('#customizepane')[0].setAttribute('style', 'visibility:hidden');
                 atCustomePage = false
                 $('#accountstatpane').addClass('display-acc');
@@ -216,11 +221,11 @@ $(document).ready(async () => {
             var nickname = userid
             var passwd = $('#loginpane input[placeholder="Password"]').val()
             db.run(`insert into Persons values("${userid}", "${nickname}", "${passwd}")`)
-            $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+            $('#loadingacc')[0].setAttribute('style', 'visibility:visible;')
             $('#accountstatpane h1').html(nickname)
             setTimeout(() => {
                 logined = true
-                $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                $('#loadingacc')[0].setAttribute('style', 'visibility:hidden;')
                 $('#loginpane')[0].setAttribute('style', 'visibility:hidden');
                 atLoginPage = false
                 $('#accountstatpane').addClass('display-acc');
@@ -236,10 +241,10 @@ $(document).ready(async () => {
 
         $(document).on('click', '#logout', async function () {
             db.run(`delete from Persons`)
-            $('#loadingacc')[0].setAttribute('style','visibility:visible;')
+            $('#loadingacc')[0].setAttribute('style', 'visibility:visible;')
             setTimeout(() => {
                 logined = false
-                $('#loadingacc')[0].setAttribute('style','visibility:hidden;')
+                $('#loadingacc')[0].setAttribute('style', 'visibility:hidden;')
                 $('#welcomepane').addClass('display-acc');
                 $('#welcomepane')[0].setAttribute('style', 'visibility:visible');
                 $('#accountstatpane')[0].setAttribute('style', 'visibility:hidden');
