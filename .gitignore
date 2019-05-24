@@ -1,6 +1,4 @@
 .vs/
 .lock
 node_modules/
-README.md
 res/font/
-*.db

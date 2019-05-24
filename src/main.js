@@ -22,10 +22,12 @@ async function createWindow() {
   win.loadFile('res/editor.html')
   const db = await dbPromise;
   var lastnote = await Promise.resolve(db.get(`select value,title from Notes order by ViewTime DESC`))
-  win.webContents.on('did-finish-load', () => {
-    win.setTitle(lastnote.title + " - MarkDownald")
-    win.webContents.send('content', lastnote.value);
-  })
+  if (lastnote) {
+    win.webContents.on('did-finish-load', () => {
+      win.setTitle(lastnote.title + " - MarkDownald")
+      win.webContents.send('content', lastnote.value);
+    })
+  }
   // Open the DevTools.
   win.webContents.openDevTools()
 
