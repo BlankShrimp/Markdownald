@@ -1,8 +1,8 @@
 # MarkDownald
 
-[MarkDownald-Android]()
+[MarkDownald-Android](https://github.com/fordai/Markdownald-Android)
 
-[MarkDownald-Server]()
+[MarkDownald-Server](https://github.com/BlankShrimp/MarkDownald-Server)
 
 This is the main repo of MarkDownald, currently only Windows client is included. In the future, both Android and Server repo will be merged into this repo. 
 
